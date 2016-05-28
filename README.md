@@ -64,4 +64,4 @@ Many
 ### Changelog
 
 
-- V0.0.1 2016-??-?? : First test release on Github
+- V0.0.1 2016-05-28 : First test release on Github
