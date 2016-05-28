@@ -1,0 +1,82 @@
+{
+    "id": "nl.bevlogenheid.evohome",
+    "name": {
+        "en": "Evohome"
+    },
+    "version": "0.0.1",
+    "compatibility": ">=0.8.30",
+    "description" : {
+	     "en" : "Control Evohome thermostats",
+       "nl" : "Bedien je Evohome verwarmingsinstallatie"
+    },
+    "author": {
+        "name": "Ralf van Dooren",
+        "email": "ralfvd@gmail.com"
+    },
+    "images": {
+      "large": "./assets/images/large.png",
+      "small": "./assets/images/small.png"
+      },
+    "category": [ "climate" ],
+    "dependencies": { },
+    "flow": {
+      "triggers": [
+        ],
+       "conditions": [
+       ],
+       "actions": [
+       {
+	        "id": "set_quickaction",
+	        "title": {
+	           "en": "Set QuickAction",
+             "nl": "Activeer SnelleActie"
+           },
+          "args":
+          [
+            {
+              "name": "qa",
+              "type": "dropdown",
+              "values": [
+                { "id": "Auto",
+                  "label": {
+                      "en": "Auto",
+                      "nl": "Automatisch"
+                    }
+                },
+                { "id": "HeatingOff",
+                  "label": {
+                      "en": "Heating off",
+                      "nl": "Verwarming uit"
+                    }
+                },
+                { "id": "AutoWithEco",
+                  "label": {
+                      "en": "Economy mode",
+                      "nl": "Zuinige modus"
+                    }
+                },
+                { "id": "Away",
+                  "label": {
+                      "en": "Away",
+                      "nl": "Afwezig"
+                    }
+                },
+                { "id": "Custom",
+                  "label": {
+                      "en": "Custom setting",
+                      "nl": "Aangepaste instelling"
+                    }
+                },
+                { "id": "DayOff",
+                  "label": {
+                      "en": "Day off",
+                      "nl": "Dag vrij"
+                    }
+                }
+              ]
+            }
+          ]
+      }
+    ]
+  }
+}

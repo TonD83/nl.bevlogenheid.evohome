@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+    <head>
+
+    </head>
+    <body>
+
+        <h1>Evohome settings</h1>
+        <p>Enter your Evohome username and password here.
+        </p>
+
+
+        <fieldset>
+            <legend>User settings</legend>
+
+            <div class="field row">
+                <label for="username">Username</label>
+                <input id="username" type="text" value="" />
+            </div>
+            <div class="field row">
+                <label for="password">Password</label>
+                <input id="password" type="password" value="" />
+            </div>
+            
+
+        </fieldset>
+
+        <button class="right" onclick="save()">Save changes</button>
+
+        <script type="text/javascript">
+        function onHomeyReady(){
+            Homey.get('username', function(err,data) {
+                document.getElementById('username').value = data
+              })
+           Homey.get('password', function(err,data) {
+                  document.getElementById('password').value = data
+                })
+           Homey.set('applicationid', '91db1612-73fd-4500-91b2-e63b069b185c')
+          Homey.ready()
+        }
+
+        function save() {
+            Homey.set('username', document.getElementById('username').value);
+            Homey.set('password', document.getElementById('password').value);
+
+        }
+        </script>
+
+    </body>
+</html>
