@@ -168,7 +168,7 @@ capabilities : {
         get: function( device_data, callback ){
             // currently, it will not actively retrieve the data, but use the stored data
             var device = devices [ device_data.id ]
-            evohomeDebugLog ('measure temperature: ' + device_data.id + ' ' + device.state.measure_temperature)
+            evohomeDebugLog ('measure temperature: ' + device_data.id + ' : ' + device_data.name + " : " + device.state.measure_temperature)
             // send the dim value to Homey
             if( typeof callback == 'function' ) {
                 callback( null, device.state.measure_temperature );
