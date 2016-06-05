@@ -56,7 +56,8 @@ Only 1 Evohome system is supported right now. Let me know if you have multiple s
 
 ### Known bugs
 
-None at this time
+- Updating thermostat temperature via device card will not work
+- Adding all thermostats at once during pairing will freeze the pairing process
 
 ### Unknown bugs
 
@@ -64,5 +65,5 @@ Many
 
 ### Changelog
 
-- V0.3.1 2016-06-05 : Second test release, including pairing
+- V0.3.1 2016-06-05 : Second test release, including pairing of thermostats
 - V0.0.1 2016-05-28 : First test release on Github
