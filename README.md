@@ -38,9 +38,8 @@ No speech support at this moment
 ### Acknowledgement
 
 Initial scripting (based on HC2) provided by Webster
+Icons provided by Webster & Reflow
 Additional information by various sources on Internet
-Icon provided by Reflow
-
 
 ### Limitations
 
@@ -65,5 +64,5 @@ Many
 
 ### Changelog
 
-
-- V0.0.1 2016-??-?? : First test release on Github
+- V0.3.1 2016-06-05 : Second test release, including pairing
+- V0.0.1 2016-05-28 : First test release on Github
