@@ -271,10 +271,9 @@ Evohomey.prototype.updateState = function ( devices, devices_data, callback) {
             Homey.log(temp_old)
             Homey.log(temp_new)
             devices[ device_data.id ].data.temp = temp_new
-            devices[ device_data.id ].state.measure_temperature = temp_new
-            module.exports.realtime(device_data,measure_temperature,temp_new)
+            //module.exports.realtime(device_data,measure_temperature,temp_new)
             //var device_data.temp = temp_new
-            //Homey.log (device_data)
+            Homey.log (device_data)
             //Homey.log (devices)
             //devices.push(device)
           }

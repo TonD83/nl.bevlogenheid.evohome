@@ -1,15 +1,27 @@
 //var jsonPath = require('jsonpath-plus')
 //var http = require('http.min')
 //var parseString = require('xml2js').parseString
-var evohomey = require('./lib/evohomey')
+var Evohomey = require('./lib/evohomey')
+
+
 
 function flow_actions () {
 
   Homey.manager('flow').on('action.set_quickaction', function (callback, args) {
-    Homey.log(args)
-    Homey.log(args.qa)
-    evohomey.quickAction(args.qa)
-    callback( null, true )
+    Homey.log('QuickAction: ' + args.qa)
+    var settings = Homey.manager('settings').get('evohomeaccount')
+      if (settings) {
+        var evohomesystem = new Evohomey({
+          user: settings.user,
+          password: settings.password,
+          appid: settings.appid
+        })
+        Homey.log (settings.password)
+        evohomesystem.quickAction(args.qa)
+        callback( null, true )
+      } else {
+        callback ('invalidSettings')
+      }
   })
 }
 

@@ -19,36 +19,6 @@
       },
     "category": [ "climate" ],
     "dependencies": { },
-    "drivers": [
-      {
-        "id": "thermostat",
-        "name": {
-          "en" : "Thermostat",
-          "nl" : "Thermostaat"
-        },
-        "class": "thermostat",
-        "capabilities": [ "target_temperature", "measure_temperature" ],
-        "images": {
-          "large": "drivers/thermostat/assets/images/large.jpg",
-          "small": "drivers/thermostat/assets/images/small.jpg"
-        },
-        "pair": [
-          { "id": "start"
-          },
-          {
-            "id": "list_thermostats",
-            "template": "list_devices",
-            "navigation": {
-              "next": "add_thermostats"
-            }
-          },
-          {
-            "id": "add_thermostats",
-            "template": "add_devices"
-          }
-        ]
-      }
-    ],
     "flow": {
       "triggers": [
         ],

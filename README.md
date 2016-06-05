@@ -37,8 +37,10 @@ No speech support at this moment
 
 ### Acknowledgement
 
-Icons provided by Webster
-Evohome API communication by various sources on Internet
+Initial scripting (based on HC2) provided by Webster
+Additional information by various sources on Internet
+Icon provided by Reflow
+
 
 ### Limitations
 
@@ -64,4 +66,4 @@ Many
 ### Changelog
 
 
-- V0.0.1 2016-05-28 : First test release on Github
+- V0.0.1 2016-??-?? : First test release on Github
