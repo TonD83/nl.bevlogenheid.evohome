@@ -58,10 +58,12 @@ Only 1 Evohome system is supported right now. Let me know if you have multiple s
 
 - Updating thermostat temperature via device card will not work
 - Adding all thermostats at once during pairing will freeze the pairing process
+- Reading device card immediately after pairing will crash the app
+- Logging in 'settings' sometimes disappears when new logging is added
 
 ### Unknown bugs
 
-Many
+Yes ;-)
 
 ### Changelog
 
