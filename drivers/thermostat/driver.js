@@ -55,26 +55,30 @@ var self = module.exports = {
           })
         }
       // initial update after start
-      evohomesystem.updateState(devices,devices_data,function(callback){
+      Homey.log(devices_data.length)
+      if ( devices_data.length != 0 ) {
+        Homey.log ("intitial update")
+        evohomesystem.updateState(devices,devices_data,function(callback){
         //devices.push
-      })
+        })
+      }
       evohomeDebugLog('Evohome app started')
       // start interval
       setInterval(function(){
-            Homey.log('[Evohome] Recurring Interval devices')
-            //Homey.log(devices)
-
-            evohomesystem.updateState(devices,devices_data,function(callback) {
+            if ( devices_data.length != 0 ) {
+              Homey.log('[Evohome] Recurring Interval devices')
+              //Homey.log(devices)
+              evohomesystem.updateState(devices,devices_data,function(callback) {
               //devices.push
               Homey.log(devices)
-
-            })
+              })
             //devices_data.forEach(function(device_data){
             //  Homey.log('Updating: ' + device_data.id)
 
             //})
           // getState(devices_data)
-        }, 1000 * 60 * 1)
+          }
+        }, 1000 * 60 * 5)
       callback()
   },
 
@@ -128,6 +132,9 @@ var settings = Homey.manager('settings').get('evohomeaccount')
               name: entry["name"],
               alive: entry["isAlive"],
               temp: Number(entry["thermostat"]["indoorTemperature"].toFixed(2))
+          },
+          state: {
+              measure_temperature: Number(entry["thermostat"]["indoorTemperature"].toFixed(2))
           }
         }
         Homey.log(device)
@@ -135,6 +142,7 @@ var settings = Homey.manager('settings').get('evohomeaccount')
         devices.push(device)
         })
       Homey.log('list devices resultaat: ' + devices)
+
       callback(null, devices)
     })
   })
