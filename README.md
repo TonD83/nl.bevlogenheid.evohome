@@ -56,10 +56,14 @@ Only 1 Evohome system is supported right now. Let me know if you have multiple s
 
 ### Known bugs
 
-- Updating thermostat temperature via device card will not work
+In order of priority:
+
+- Restart of app needed after pairing to get device cards working (i.e. not crashing the app)
 - Adding all thermostats at once during pairing will freeze the pairing process
-- Reading device card immediately after pairing will crash the app
-- Logging in 'settings' sometimes disappears when new logging is added
+- App crashes when pairing starts without username/password settings
+- Adding all thermostats at once during pairing will freeze the pairing process
+- Removing the app doesn't remove the devices info (which can impact when you re-install the app)
+- Removing the app doesn't remove the devices info (which can impact when you re-install the app)
 
 ### Unknown bugs
 
@@ -67,5 +71,6 @@ Yes ;-)
 
 ### Changelog
 
+- V0.3.2 2016-06-06 : update: target-temperature reading OK, buglist ordered to priority
 - V0.3.1 2016-06-05 : Second test release, including pairing of thermostats
 - V0.0.1 2016-05-28 : First test release on Github

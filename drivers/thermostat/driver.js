@@ -41,7 +41,11 @@ var self = module.exports = {
           Homey.log('initializing:' + device_data.id + ': ' + device_data.name)
           devices[ device_data.id ] = {
                 data    : device_data,
-                state   : {}
+                state   : {
+                  measure_temperature: false,
+                  target_temperature: false
+                }
+
             }
           Homey.log(devices[ device_data.id ])
           //self.getState( device_data )
@@ -57,7 +61,7 @@ var self = module.exports = {
       // initial update after start
       Homey.log(devices_data.length)
       if ( devices_data.length != 0 ) {
-        Homey.log ("intitial update")
+        Homey.log ("initial update")
         evohomesystem.updateState(devices,devices_data,function(callback){
         //devices.push
         })
@@ -134,23 +138,26 @@ var settings = Homey.manager('settings').get('evohomeaccount')
               temp: Number(entry["thermostat"]["indoorTemperature"].toFixed(2))
           },
           state: {
-              measure_temperature: Number(entry["thermostat"]["indoorTemperature"].toFixed(2))
+              measure_temperature: Number(entry["thermostat"]["indoorTemperature"].toFixed(2)),
+              target_temperature: Number(entry["thermostat"]["changeableValues"]["heatSetpoint"]["value"].toFixed(2))
           }
         }
-        Homey.log(device)
+        Homey.log('target temp:' + Number(entry["thermostat"]["changeableValues"]["heatSetpoint"]["value"].toFixed(2)))
+        //Homey.log(device)
         Homey.log('--------------------------------')
         devices.push(device)
         })
-      Homey.log('list devices resultaat: ' + devices)
-
-      callback(null, devices)
+        Homey.log('list devices resultaat: ' + devices)
+        callback(null, devices)
     })
   })
 
   socket.on('add_device', function(device, callback) {
     //.log(devices)
     evohomeDebugLog('Added Evohome thermostat: ', device)
-    Homey.log('added device: ' + device)
+    //evohomesystem.updateState(devices,devices,function(callback){
+      Homey.log('added device: ' + device)
+    //})
     //devices.push(device)
   })
 
@@ -184,7 +191,8 @@ capabilities : {
       get: function( device_data, callback ) {
           Homey.log ('get target temperature')
           Homey.log (device_data)
-          Homey.log ('set: ' + device_data.temp)
+          var device = devices [ device_data.id ]
+          //Homey.log ('get target_temperature: ' + device_data.state.target_temperature)
           //var bulb = getBulb( device_data.id );
           //if( bulb instanceof Error ) return callback( bulb );
 
@@ -196,7 +204,7 @@ capabilities : {
 
           // send the new dim value to Homey
           if( typeof callback == 'function' ) {
-              callback( null, device_data.temp);
+              callback( null, device.state.target_temperature);
           }
       },
         set: function( device_data, target_temperature, callback ) {
@@ -208,12 +216,15 @@ capabilities : {
                 appid: settings.appid
               })
             }
+            var device = devices [ device_data.id ]
             evohomeDebugLog ('set temperature: ' + device_data.id + ' ' + target_temperature)
             // round to nearest 0.5 degrees (slider sometimes gives values not rounded to 0.5)
             var new_target = Number(Math.round(target_temperature * 2) / 2).toFixed(1)
             Homey.log (new_target)
             if( typeof callback == 'function' ) {
-              evohomesystem.setDeviceTemperature(device_data.id,new_target,function(callback) {
+              evohomesystem.setDeviceTemperature(device.id,new_target,function(callback) {
+                  evohomeDebugLog(device.name + ': new target temperature set: ' + new_target)
+                  device.state.target_temperature = new_target
                   callback( null, new_target);
               })
 

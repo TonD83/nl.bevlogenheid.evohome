@@ -51,16 +51,13 @@
 
 	Homey.setTitle( __('pair.start.title') );
 	showBusy(__('pair.start.messages.busyValidation'))
-	console.log('test 1')
 	Homey.emit('start', function(error, result) {
 		//if (error) {
 		//	showError(__('pair.start.messages.' + error))
 		//} else {
 		//	showBusy(__('pair.start.messages.busyGetThermostats'))
-		console.log('start')
 		Homey.showView('list_thermostats', function (error, result) {
-				console.log('test')
-				showBusy(__('pair.start.messages.blablbla'))
+				showBusy(__('pair.start.messages.busyGetThermostats'))
 			})
 		//}
 	})
