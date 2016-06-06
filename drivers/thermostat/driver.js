@@ -222,8 +222,8 @@ capabilities : {
             var new_target = Number(Math.round(target_temperature * 2) / 2).toFixed(1)
             Homey.log (new_target)
             if( typeof callback == 'function' ) {
-              evohomesystem.setDeviceTemperature(device.id,new_target,function(callback) {
-                  evohomeDebugLog(device.name + ': new target temperature set: ' + new_target)
+              evohomesystem.setDeviceTemperature(device_data.id,new_target,function(callback) {
+                  evohomeDebugLog(device_data.id + ': new target temperature set: ' + new_target)
                   device.state.target_temperature = new_target
                   callback( null, new_target);
               })

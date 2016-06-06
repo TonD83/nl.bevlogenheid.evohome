@@ -64,6 +64,7 @@ In order of priority:
 - Adding all thermostats at once during pairing will freeze the pairing process
 - Removing the app doesn't remove the devices info (which can impact when you re-install the app)
 - Removing the app doesn't remove the devices info (which can impact when you re-install the app)
+- Setting the target temperature will give an error 400: invalid URL and target temperature will not be sent to Evohome
 
 ### Unknown bugs
 
