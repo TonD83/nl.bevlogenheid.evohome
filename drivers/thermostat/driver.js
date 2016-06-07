@@ -86,7 +86,7 @@ var self = module.exports = {
             //})
           // getState(devices_data)
           }
-        }, 1000 * 30 * 1)
+        }, 1000 * 60 * 5)
       callback()
   },
 
