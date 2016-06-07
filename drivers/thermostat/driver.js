@@ -38,7 +38,8 @@ var self = module.exports = {
   // when the driver starts, Homey rebooted. Initialize all previously paired devices.
       Homey.log(devices_data)
       devices_data.forEach(function(device_data){
-          Homey.log('initializing:' + device_data.id + ': ' + device_data.name)
+          Homey.log(device_data)
+          //Homey.log('initializing:' + device_data.id + ': ' + device_data.name)
           devices[ device_data.id ] = {
                 data    : device_data,
                 state   : {
@@ -47,7 +48,8 @@ var self = module.exports = {
                 }
 
             }
-          Homey.log(devices[ device_data.id ])
+
+          //Homey.log(devices[ device_data.id ])
           //self.getState( device_data )
       })
       var settings = Homey.manager('settings').get('evohomeaccount')
@@ -62,9 +64,14 @@ var self = module.exports = {
       Homey.log(devices_data.length)
       if ( devices_data.length != 0 ) {
         Homey.log ("initial update")
-        evohomesystem.updateState(devices,devices_data,function(callback){
+
+        self.updateState(evohomesystem,devices_data,'true',callback)
+
+
+
+        //evohomesystem.updateState(devices, devices_data,function(callback){
         //devices.push
-        })
+        //})
       }
       evohomeDebugLog('Evohome app started')
       // start interval
@@ -72,26 +79,83 @@ var self = module.exports = {
             if ( devices_data.length != 0 ) {
               Homey.log('[Evohome] Recurring Interval devices')
               //Homey.log(devices)
-              evohomesystem.updateState(devices,devices_data,function(callback) {
-              //devices.push
-              Homey.log(devices)
-              })
+              self.updateState(evohomesystem,devices_data,'false',callback)
             //devices_data.forEach(function(device_data){
             //  Homey.log('Updating: ' + device_data.id)
 
             //})
           // getState(devices_data)
           }
-        }, 1000 * 60 * 5)
+        }, 1000 * 30 * 1)
       callback()
   },
+
 
   getState: function ( device_data, callback) {
     Homey.log('getState')
     value = 5
     devices[ device_data.id ].state.measure_temperature = value;
     self.realtime( device_data, 'measure_temperature', value );
-},
+  },
+
+  updateState: function ( evohomesystem, devices_data, initial_run,callback) {
+    //Homey.log ('initial run: ' + initial_run)
+    var rawdata =[]
+
+    evohomesystem.getAllInformation(function(rawdata) {
+      var rawdevices = rawdata[0]["devices"]
+    rawdevices.forEach(function(entry){
+        //Homey.log(entry["deviceID"] + ' checken...')
+        devices_data.forEach(function(device_data) {
+          // !! BUG: als je device toevoegt terwijl app al draait, dan wordt deze nog niet meegenomen. Pas na herstarten weer
+          //Homey.log (entry["deviceID"] + ' vergelijken met ' + device_data.id)
+          if (device_data.id == entry["deviceID"]) {
+            Homey.log ('Gevonden: ' + device_data.name)
+            // voer updates uit
+            // check of temperatuur veranderd is
+            var temp_old = device_data.temp
+            var temp_new = Number(entry["thermostat"]["indoorTemperature"].toFixed(2))
+            devices[ device_data.id ].state.measure_temperature = temp_new
+            Homey.log ('target temperature: ' + Number(entry["thermostat"]["changeableValues"]["heatSetpoint"]["value"].toFixed(2)))
+            Homey.log (devices[ device_data.id ].state.target_temperature)
+            devices[ device_data.id ].state.target_temperature = Number(entry["thermostat"]["changeableValues"]["heatSetpoint"]["value"].toFixed(2))
+            Homey.log (devices[ device_data.id ].state.target_temperature)
+            Homey.log ('einde target temperature')
+            if ( temp_old != temp_new) {
+              Homey.log ('temperatuur verschil gevonden')
+              //Homey.log (devices)
+              //Homey.log (device_data)
+              Homey.log(temp_old)
+              Homey.log(temp_new)
+              devices[ device_data.id ].data.temp = temp_new
+              devices[ device_data.id ].state.measure_temperature = temp_new
+              Homey.log(device_data)
+              //Homey.log(devices)
+              //evohomeDebugLog (device_data.data.name + ': new temperature: ' + temp_new)
+
+              // During initial run, don't trigger update of temperature; it might not have changed
+              if ( initial_run == 'false' ) {
+                module.exports.realtime(device_data,'measure_temperature',temp_new)
+              }
+
+              //var device_data.temp = temp_new
+              //Homey.log (device_data)
+              //Homey.log (devices)
+              //devices.push(device)
+            }
+            Homey.log ('////////////')
+              // TODO: check of naam veranderd is, zo ja, in Homey aanpassen indien mogelijk
+          }
+          //Homey.log('----VOLGENDE----')
+        })
+      })
+      Homey.log('---Einde updateState-----')
+      //devices.push
+      callback(null)
+    })
+
+  },
+
 
 pair : function( socket ) {
 
@@ -223,6 +287,7 @@ capabilities : {
             Homey.log (new_target)
             if( typeof callback == 'function' ) {
               evohomesystem.setDeviceTemperature(device_data.id,new_target,function(callback) {
+                  //module.exports.realtime(device_data,'target_temperature',temp_new)
                   evohomeDebugLog(device_data.id + ': new target temperature set: ' + new_target)
                   device.state.target_temperature = new_target
                   callback( null, new_target);
