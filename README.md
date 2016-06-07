@@ -20,7 +20,9 @@ No conditions defined at this moment
 
 *Actions*
 
-There is one action:
+Two actions are available:
+
+- Set temperature ; this will set the individual temperature on a device. Attention: there is no way yet to cancel this setting other than setting another temperature or using the Evohome app/system. The 'cancel'-action is pending.
 
 - Execute QuickAction ; these are the generic settings of your Evohome. You can choose between:
     - Auto: this is the normal mode, Evohome will follow the set program
@@ -59,13 +61,11 @@ Only 1 Evohome system is supported right now. Let me know if you have multiple s
 
 In order of priority:
 
-- Restart of app needed after pairing to get device cards working (i.e. not crashing the app)
-- Adding all thermostats at once during pairing will freeze the pairing process
-- App crashes when pairing starts without username/password settings
-- Adding all thermostats at once during pairing will freeze the pairing process
+- [SOLVED 0.3.6] Restart of app needed after pairing to get device cards working (i.e. not crashing the app)
+- [SOLVED 0.3.6] Adding all thermostats at once during pairing will freeze the pairing process
+- [SOLVED 0.3.6] App crashes when pairing starts without username/password settings
 - Removing the app doesn't remove the devices info (which can impact when you re-install the app)
-- Removing the app doesn't remove the devices info (which can impact when you re-install the app)
-- [Solved] Setting the target temperature will give an error 400: invalid URL and target temperature will not be sent to Evohome
+- [SOLVED 0.3.3] Setting the target temperature will give an error 400: invalid URL and target temperature will not be sent to Evohome
 
 ### Unknown bugs
 
@@ -73,6 +73,7 @@ Yes ;-)
 
 ### Changelog
 
+- V0.3.6 2016-06-07 : insights logging added, pairing bugs solved
 - V0.3.4 2016-06-07 : update: insights logging added
 - V0.3.3 2016-06-06 : update: target temperature setting OK
 - V0.3.2 2016-06-06 : update: target-temperature reading OK, buglist ordered to priority

@@ -52,13 +52,13 @@
 	Homey.setTitle( __('pair.start.title') );
 	showBusy(__('pair.start.messages.busyValidation'))
 	Homey.emit('start', function(error, result) {
-		//if (error) {
-		//	showError(__('pair.start.messages.' + error))
-		//} else {
-		//	showBusy(__('pair.start.messages.busyGetThermostats'))
-		Homey.showView('list_thermostats', function (error, result) {
+		if (error) {
+			showError(__('pair.start.messages.' + error))
+		} else {
 				showBusy(__('pair.start.messages.busyGetThermostats'))
+				Homey.showView('list_thermostats', function (error, result) {
+					showBusy(__('pair.start.messages.busyGetThermostats'))
 			})
-		//}
+		}
 	})
 </script>
