@@ -63,21 +63,37 @@ var self = module.exports = {
       // initial update after start
       Homey.log(devices_data.length)
       if ( devices_data.length != 0 ) {
-        Homey.log ("initial update")
-
-        self.updateState(evohomesystem,devices_data,'true',callback)
-
-
+        if (settings) {
+          var tijdstip = new Date()
+          Homey.log ("initial update: " + tijdstip)
+          self.updateState(evohomesystem,devices_data,'true',callback)
+        }
 
         //evohomesystem.updateState(devices, devices_data,function(callback){
         //devices.push
         //})
       }
       evohomeDebugLog('Evohome app started')
+
+      Homey.manager('flow').on('action.reset_temperature', function( callback, args, state ) {
+              Homey.log('action reset temperature')
+              Homey.logs (args, state)
+              if ( args.current_state == state.state ) {
+                  callback( null, true );
+              } else {
+                  callback( null, false );
+              }
+          });
+
+
       // start interval
       setInterval(function(){
+        var tijdstip = new Date()
+        Homey.log('[Evohome] Recurring Interval devices: ' + tijdstip)
+
             if ( devices_data.length != 0 ) {
-              Homey.log('[Evohome] Recurring Interval devices')
+            Homey.log(devices_data.length)
+            if (settings) {
               //Homey.log(devices)
               self.updateState(evohomesystem,devices_data,'false',callback)
             //devices_data.forEach(function(device_data){
@@ -85,9 +101,13 @@ var self = module.exports = {
 
             //})
           // getState(devices_data)
+            }
           }
-        }, 1000 * 60 * 5)
+        }, 1000 * 60 * 1)
+
+
       callback()
+
   },
 
 
@@ -132,7 +152,6 @@ var self = module.exports = {
               Homey.log(device_data)
               //Homey.log(devices)
               //evohomeDebugLog (device_data.data.name + ': new temperature: ' + temp_new)
-
               // During initial run, don't trigger update of temperature; it might not have changed
               if ( initial_run == 'false' ) {
                 module.exports.realtime(device_data,'measure_temperature',temp_new)
@@ -170,12 +189,16 @@ var settings = Homey.manager('settings').get('evohomeaccount')
 
   socket.on('start', function (data, callback) {
       Homey.log('pairing started')
+      if (!settings) {
+        Homey.log('no settings')
+        return callback('errorNoSettings')
+      }
       evohomesystem.validateAccount(function (error, userId) {
-        if (error) return callback('errorInvalidSettings')
-        Homey.log('pairing: validation complete')
-        //Homey.emit('list_devices')
-        callback(null)
-      })
+      if (error) return callback('errorInvalidSettings')
+      Homey.log('pairing: validation complete')
+      //Homey.emit('list_devices')
+      callback(null)
+    })
   }),
 
   socket.on('list_devices', function (data, callback) {
@@ -222,7 +245,8 @@ var settings = Homey.manager('settings').get('evohomeaccount')
     //evohomesystem.updateState(devices,devices,function(callback){
       Homey.log('added device: ' + device)
     //})
-    //devices.push(device)
+      devices.push(device)
+      callback(null)
   })
 
   socket.on('disconnect', function(){
@@ -231,6 +255,15 @@ var settings = Homey.manager('settings').get('evohomeaccount')
 },
 
 capabilities : {
+
+    reset_temperature: {
+        set: function (device_data, callback){
+          if( typeof callback == 'function' ) {
+              Homey.log ('reset capability: ' + device_data)
+              callback( null )
+          }
+        }
+    },
     measure_temperature: {
 
         // this function is called by Homey when it wants to GET the dim state, e.g. when the user loads the smartphone interface

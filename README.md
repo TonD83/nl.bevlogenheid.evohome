@@ -12,7 +12,11 @@ Fill in your username (email address) and password.  You can leave the applicati
 
 *Triggers*
 
-No triggers defined at this moment
+- When temperature changes: triggers a flow when temperature changes 
+
+*Conditions*
+
+No conditions defined at this moment
 
 *Actions*
 
@@ -28,9 +32,6 @@ There is one action:
 
 All actions are currently on 'permanent' mode. In the future there might be timers (e.g. set Economy for two hours). If you need that now, using the Homey built in-timers or the CountDown app to trigger a timed event.
 
-*Conditions*
-
-No Conditions defined at this moment
 ### Speech
 
 No speech support at this moment
