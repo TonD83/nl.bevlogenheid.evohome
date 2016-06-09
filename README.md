@@ -19,9 +19,9 @@ No conditions defined at this moment
 
 *Actions*
 
-Two actions are available:
+- Set temperature ; this will set the individual temperature on a device. Attention: there is no way yet to cancel this setting other than setting another temperature or using the Evohome app/system. 
 
-- Set temperature ; this will set the individual temperature on a device. Attention: there is no way yet to cancel this setting other than setting another temperature or using the Evohome app/system. The 'cancel'-action is pending.
+- Reset temperature: Cancel individual device setting
 
 - Execute QuickAction ; these are the generic settings of your Evohome. You can choose between:
     - Auto: this is the normal mode, Evohome will follow the set program
@@ -49,7 +49,7 @@ Only 1 Evohome system is supported right now. Let me know if you have multiple s
 
 ### ToDo
 
-- Add individual thermostats reading and setting
+- Add quick action status changes (outside of Homey)
 - Add speech support
 - Clean-up code
 - Add timeout to code if Evohome service doesn't respond
