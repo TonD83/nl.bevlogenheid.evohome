@@ -43,6 +43,14 @@ Initial scripting (based on HC2) provided by Webster
 Icons provided by Webster & Reflow
 Additional information by various sources on Internet
 
+### Donate
+
+If you like the app, buy me a beer!  
+[![Paypal donate][pp-donate-image]][pp-donate-link]
+
+- Adddd
+- Adddd
+
 ### Limitations
 
 Only 1 Evohome system is supported right now. Let me know if you have multiple systems (e.g. 2 houses).
@@ -79,3 +87,6 @@ Yes ;-)
 - V0.3.2 2016-06-06 : update: target-temperature reading OK, buglist ordered to priority
 - V0.3.1 2016-06-05 : Second test release, including pairing of thermostats
 - V0.0.1 2016-05-28 : First test release on Github
+
+[pp-donate-link]: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ralf%40iae%2enl&lc=GB&item_name=homey%2devohome&item_number=homey%2devohome&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted 
+[pp-donate-image]: https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif
