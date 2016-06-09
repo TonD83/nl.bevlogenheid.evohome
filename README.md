@@ -45,11 +45,8 @@ Additional information by various sources on Internet
 
 ### Donate
 
-If you like the app, buy me a beer!  
+If you like the app, consider a donation to support development  
 [![Paypal donate][pp-donate-image]][pp-donate-link]
-
-- Adddd
-- Adddd
 
 ### Limitations
 
