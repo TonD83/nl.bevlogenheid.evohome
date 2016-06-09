@@ -2,7 +2,6 @@
 
 With this app you can manage your Evohome system from within Homey.
 
-
 ### Settings
 After installing the application, first visit the Homey Settings and navigate to the 'Evohome' application.
 
@@ -61,7 +60,7 @@ Only 1 Evohome system is supported right now. Let me know if you have multiple s
 
 In order of priority:
 
-- [SOLVED 0.3.6] Restart of app needed after pairing to get device cards working (i.e. not crashing the app)
+- [SOLVED 0.4.0] Restart of app needed after pairing to get device cards working (i.e. not crashing the app)
 - [SOLVED 0.3.6] Adding all thermostats at once during pairing will freeze the pairing process
 - [SOLVED 0.3.6] App crashes when pairing starts without username/password settings
 - Removing the app doesn't remove the devices info (which can impact when you re-install the app)
@@ -73,6 +72,7 @@ Yes ;-)
 
 ### Changelog
 
+- V0.4.0 2016-06-09 : bug solving, add and delete thermostat as expected
 - V0.3.6 2016-06-07 : insights logging added, pairing bugs solved
 - V0.3.4 2016-06-07 : update: insights logging added
 - V0.3.3 2016-06-06 : update: target temperature setting OK

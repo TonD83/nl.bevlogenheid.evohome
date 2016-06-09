@@ -3,7 +3,7 @@
     "name": {
         "en": "Evohome"
     },
-    "version": "0.3.6",
+    "version": "0.4.0",
     "compatibility": ">=0.8.30",
     "description" : {
 	     "en" : "Control Evohome thermostats",
@@ -113,11 +113,13 @@
              "en": "Cancel adjustment",
              "nl": "Annuleer aanpassing"
            },
-           "args": {
+           "args": [
+             {
              "name": "device",
              "type": "device",
              "filter": "driver_id=thermostat"
-           }
+             }
+         ]
          }
     ]
   }
