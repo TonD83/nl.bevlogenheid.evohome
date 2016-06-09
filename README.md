@@ -77,7 +77,7 @@ Yes ;-)
 
 ### Changelog
 
-- V0.4.0 2016-06-09 : bug solving, add and delete thermostat as expected
+- V0.4.1 2016-06-09 : release for app store 
 - V0.3.6 2016-06-07 : insights logging added, pairing bugs solved
 - V0.3.4 2016-06-07 : update: insights logging added
 - V0.3.3 2016-06-06 : update: target temperature setting OK

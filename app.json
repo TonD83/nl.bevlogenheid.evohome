@@ -3,7 +3,7 @@
     "name": {
         "en": "Evohome"
     },
-    "version": "0.4.0",
+    "version": "0.4.1",
     "compatibility": ">=0.8.30",
     "description" : {
 	     "en" : "Control Evohome thermostats",
