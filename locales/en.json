@@ -1,10 +1,10 @@
 {	"settings": {
     "OSMlanguage": "en",
-		"title": "Evohome settings settings",
-		"intro": "Before you can add your thermostats you need to enter your username and password Evohome first. These settings are stored locally on your Homey.",
+		"title": "Evohome settings",
+		"intro": "Before you can add your thermostats you need to enter your username and password for Evohome first. These settings are stored locally on your Homey.",
 		"account": {
 			"title": "Evohome account settings",
-			"fieldUsername": "Username (email address)",
+			"fieldUsername": "Username (email)",
 			"fieldPassword": "Password",
 			"fieldDebug": "Enable debug logging",
 			"buttonSave": "Save",

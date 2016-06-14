@@ -71,7 +71,7 @@ Only 1 Evohome system is supported right now. Let me know if you have multiple s
 
 In order of priority:
 
-- When adding a device after first run of the app; there won't be any measurements until you restart the app. After that, you can add/remove devices all you like.
+- [SOLVED 0.4.3] When adding a device after first run of the app; there won't be any measurements until you restart the app. After that, you can add/remove devices all you like.
 - [SOLVED 0.4.2] Adding or removing devices while running would confuse the updates of devices, resulting in non-triggered events
 - [SOLVED 0.4.2] Insights logging wouldn't always work when a temperature change was detected
 - [SOLVED 0.4.2] Removing the app doesn't always remove the devices info (which can impact when you re-install the app)
@@ -82,6 +82,7 @@ Yes ;-)
 
 ### Changelog
 
+- V0.4.3 2016-06-14 : Solved 'first-run' bug
 - V0.4.2 2016-06-14 : extra trigger & action cards, fixed bugs, first code clean-up
 - V0.4.1 2016-06-09 : release for app store
 - V0.3.6 2016-06-07 : insights logging added, pairing bugs solved

@@ -84,7 +84,7 @@ var self = module.exports = {
           Homey.log('===== device data====')
           Homey.log(device_data)
           Homey.log('===== device data====')
-          Homey.log('@@@@@ Thermostat data @@@@')
+          Homey.log('START @@@@@ Thermostat data @@@@')
           //Homey.log('initializing:' + device_data.id + ': ' + device_data.name)
           number_of_devices++
           Homey.log(number_of_devices)
@@ -98,7 +98,7 @@ var self = module.exports = {
 
             }
           Homey.log(thermostats)
-          Homey.log('@@@@@@ Thermostat data @@@@ ')
+          Homey.log('END @@@@@@ Thermostat data @@@@ ')
           devices[ device_data.id ] = {
                   data    : device_data,
                   state   : {
@@ -140,7 +140,19 @@ var self = module.exports = {
         var timestamp_recurring = new Date()
         evohomeDebugLog('[Evohome] Recurring Interval devices: ' + number_of_devices + ' : '+ timestamp_recurring)
         //Homey.log('Number of devices to be updated: ' + thermostats.length)
+        Homey.log('START ^^^^^^^^ Number of devices check')
+        Homey.log(number_of_devices)
+        Homey.log(Object.keys(thermostats).length)
+        Homey.log('END ^^^^^^^^ Number of devices check')
         if ( number_of_devices != 0 ) {
+          var settings = Homey.manager('settings').get('evohomeaccount')
+            if (settings) {
+              var evohomesystem = new Evohomey({
+                user: settings.user,
+                password: settings.password,
+                appid: settings.appid
+              })
+            }
           if (settings) {
             Homey.log('start updateState > 0 devices')
             //Homey.log(devices)
@@ -201,7 +213,8 @@ var self = module.exports = {
             //Homey.log(id)
           //Homey.log (entry["deviceID"] + ' vergelijken met ' + device_data.id)
          if (id == entry["deviceID"]) {
-            evohomeDebugLog('[updateState] Device found: ' + thermostats[id].data.name)
+            //evohomeDebugLog('[updateState] Device found: ' + thermostats[id].data.name)
+
             // Test update
             //Homey.log('$$$$$$$ realtime update $$$$$$')
             //var temp_new = Number(Math.floor(Math.random() * (30 - 5) + 5))
