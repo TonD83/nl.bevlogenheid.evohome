@@ -1,17 +1,21 @@
-### Homey Evohome
+### Honeywell Evohome
 
-With this app you can manage your Evohome system from within Homey.
+With this app you can manage your Evohome and other systems that connect via Total Connect Comfort from within Homey. It is using the unofficial API of Evohome.
 
 ### Settings
-After installing the application, first visit the Homey Settings and navigate to the 'Evohome' application.
+After installing the application, first visit the Homey Settings and navigate to the 'Honeywell Evohome' application.
 
-Fill in your username (email address) and password.  You can leave the application-id as-is, unless you have your own application ID.
+Fill in your username (email address) and password and press save. Then, go to Devices and add a Honeywell Evohome device. Press thermostat and select which devices you'd like to add into Homey.
 
 ### Flow support
 
 *Triggers*
 
-- When temperature changes: triggers a flow when temperature changes 
+- When temperature changes: triggers a flow when temperature changes
+    - Via device card: individual temperature changes
+    - Via Evohome card: any temperature measurement changes
+- When target temperature changes: triggers a flow when the target temperature setting changes
+    - Via device card: individual target temperature settings changes
 
 *Conditions*
 
@@ -19,7 +23,7 @@ No conditions defined at this moment
 
 *Actions*
 
-- Set temperature ; this will set the individual temperature on a device. Attention: there is no way yet to cancel this setting other than setting another temperature or using the Evohome app/system. 
+- Set temperature ; this will set the individual temperature on a device. Attention: there is no way yet to cancel this setting other than setting another temperature or using the Evohome app/system.
 
 - Reset temperature: Cancel individual device setting
 
@@ -30,6 +34,8 @@ No conditions defined at this moment
     - Away: This will set the Evohome system to Away mode
     - Day Off: This will set the Evohome system to 'Day off' mode
     - Custom: This will set the Evohome system to 'Custom' mode; whatever you configured in Evohome itself
+
+- Execute QuickAction (manual entry); with this card you can enter the quickaction yourself. This is usefull if you have stored a quickaction value in a variable in Homey, this can be used e.g. to restore a previous setting. e.g. door open, set quickaction for heating off, then when door closes, set quickaction with variable where the previous status was stored (e.g. Auto).
 
 All actions are currently on 'permanent' mode. In the future there might be timers (e.g. set Economy for two hours). If you need that now, using the Homey built in-timers or the CountDown app to trigger a timed event.
 
@@ -54,7 +60,7 @@ Only 1 Evohome system is supported right now. Let me know if you have multiple s
 
 ### ToDo
 
-- Add quick action status changes (outside of Homey)
+- Add target temperature triggers
 - Add speech support
 - Clean-up code
 - Add timeout to code if Evohome service doesn't respond
@@ -65,11 +71,9 @@ Only 1 Evohome system is supported right now. Let me know if you have multiple s
 
 In order of priority:
 
-- [SOLVED 0.4.0] Restart of app needed after pairing to get device cards working (i.e. not crashing the app)
-- [SOLVED 0.3.6] Adding all thermostats at once during pairing will freeze the pairing process
-- [SOLVED 0.3.6] App crashes when pairing starts without username/password settings
-- Removing the app doesn't remove the devices info (which can impact when you re-install the app)
-- [SOLVED 0.3.3] Setting the target temperature will give an error 400: invalid URL and target temperature will not be sent to Evohome
+- [SOLVED 0.4.2] Adding or removing devices while running would confuse the updates of devices, resulting in non-triggered events
+- [SOLVED 0.4.2] Insights logging wouldn't always work when a temperature change was detected
+- [SOLVED 0.4.2] Removing the app doesn't always remove the devices info (which can impact when you re-install the app)
 
 ### Unknown bugs
 
@@ -77,13 +81,11 @@ Yes ;-)
 
 ### Changelog
 
-- V0.4.1 2016-06-09 : release for app store 
+- V0.4.2 2016-06-?? : extra trigger & action cards, fixed bugs, first code clean-up
+- V0.4.1 2016-06-09 : release for app store
 - V0.3.6 2016-06-07 : insights logging added, pairing bugs solved
-- V0.3.4 2016-06-07 : update: insights logging added
-- V0.3.3 2016-06-06 : update: target temperature setting OK
-- V0.3.2 2016-06-06 : update: target-temperature reading OK, buglist ordered to priority
 - V0.3.1 2016-06-05 : Second test release, including pairing of thermostats
 - V0.0.1 2016-05-28 : First test release on Github
 
-[pp-donate-link]: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ralf%40iae%2enl&lc=GB&item_name=homey%2devohome&item_number=homey%2devohome&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted 
+[pp-donate-link]: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ralf%40iae%2enl&lc=GB&item_name=homey%2devohome&item_number=homey%2devohome&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 [pp-donate-image]: https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif

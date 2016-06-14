@@ -3,7 +3,7 @@ var Util = require('../../lib/util.js')
 var jsonPath = require('jsonpath-plus');
 var devices = {};
 var thermostats = {}
-
+var number_of_devices = 0
 var sessionID = ("empty");
 var userID = ("empty");
 var locationID = ("empty");
@@ -36,13 +36,60 @@ function evohomeDebugLog(message, data) {
 var self = module.exports = {
 
   init : function (devices_data, callback) {
-      // when the driver starts, Homey rebooted. Initialize all previously paired devices.
 
+    Homey.log ('number of device: ' + number_of_devices)
+
+    Homey.manager('flow').on('action.reset_temperature', function( callback, args, state ) {
+            Homey.log('action reset temperature')
+            Homey.log (args.device.id)
+            var settings = Homey.manager('settings').get('evohomeaccount')
+            evohomeDebugLog('[action] reset temperature ; settings: ' + settings)
+              if (settings) {
+                //Homey.log(settings.appid)
+                var evohomesystem = new Evohomey({
+                  user: settings.user,
+                  password: settings.password,
+                  appid: settings.appid
+                })
+              }
+              evohomeDebugLog ('[capabilities] reset temperature: ' + args.device.id)
+              evohomesystem.resetDeviceTemperature(args.device.id,function(callback) {
+                    //module.exports.realtime(device_data,'target_temperature',temp_new)
+                    evohomeDebugLog(args.device.id + ': target temperature reset ')
+                    // be aware, target_temperature is now not correct, only when next update cycle executes
+                    callback( null, true);
+                })
+
+    })
+
+    Homey.manager('flow').on('trigger.measure_temperature', function (callback, args) {
+      Homey.log('trigger started')
+      evohomeDebugLog('[trigger] temp changed: ' + args)
+      // if( args.arg_id == 'something' )
+      callback(null, true); // true to make the flow continue, or false to abort
+  })
+
+    Homey.manager('flow').on('trigger.any_measure_temp_changed', function (callback, args) {
+      Homey.log('flow started')
+      evohomeDebugLog('[trigger] any temp changed: ' + args)
+      // if( args.arg_id == 'something' )
+      callback(null, true); // true to make the flow continue, or false to abort
+  })
+
+      // when the driver starts, Homey rebooted. Initialize all previously paired devices.
+      Homey.log('----devices data----')
       Homey.log(devices_data)
+      Homey.log('----devices data----')
       devices_data.forEach(function(device_data){
+          Homey.log('===== device data====')
           Homey.log(device_data)
+          Homey.log('===== device data====')
+          Homey.log('@@@@@ Thermostat data @@@@')
           //Homey.log('initializing:' + device_data.id + ': ' + device_data.name)
+          number_of_devices++
+          Homey.log(number_of_devices)
           thermostats[ device_data.id ] = {
+                id : device_data.id,
                 data    : device_data,
                 state   : {
                   measure_temperature: false,
@@ -50,6 +97,8 @@ var self = module.exports = {
                 }
 
             }
+          Homey.log(thermostats)
+          Homey.log('@@@@@@ Thermostat data @@@@ ')
           devices[ device_data.id ] = {
                   data    : device_data,
                   state   : {
@@ -71,11 +120,13 @@ var self = module.exports = {
           })
         }
       // initial update after start
-      Homey.log(devices_data.length)
-      if ( devices_data.length != 0 ) {
+      Homey.log('initial  devices_data lengte: ' + devices_data.length)
+      Homey.log('initial thermostats lengte: ' + thermostats.length)
+
+      if ( number_of_devices > 0 ) {
         if (settings) {
-          var tijdstip = new Date()
-          Homey.log ("initial update: " + tijdstip)
+          var timestamp_initial = new Date()
+          Homey.log ("initial update: " + timestamp_initial)
           self.updateState(evohomesystem,devices_data,'true',callback)
         }
 
@@ -84,112 +135,133 @@ var self = module.exports = {
         //})
       }
       evohomeDebugLog('Evohome app started')
-
-      Homey.manager('flow').on('action.reset_temperature', function( callback, args, state ) {
-              Homey.log('action reset temperature')
-              Homey.log (args.device.id)
-              var settings = Homey.manager('settings').get('evohomeaccount')
-                if (settings) {
-                  var evohomesystem = new Evohomey({
-                    user: settings.user,
-                    password: settings.password,
-                    appid: settings.appid
-                  })
-                }
-                evohomeDebugLog ('[capabilities] reset temperature: ' + args.device.id)
-                evohomesystem.resetDeviceTemperature(args.device.id,function(callback) {
-                      //module.exports.realtime(device_data,'target_temperature',temp_new)
-                      evohomeDebugLog(args.device.id + ': target temperature reset ')
-                      // be aware, target_temperature is now not correct, only when next update cycle executes
-                      callback( null, true);
-                  })
-
-                })
-
       // start interval
       setInterval(function(){
-        var tijdstip = new Date()
-
-        // BUG: hij meet niet goed hoeveel devices er zijn (wellicht is de data zelfs niet bekend, dus je moet de app nog stoppen en starten)
-        // Uitzoeken wat hiervoor de oplossing is
-        Homey.log('[Evohome] Recurring Interval devices: ' + tijdstip)
-        Homey.log('Number of devices to be updated: ' + thermostats.length)
-
-            if ( devices_data.length != 0 ) {
-            if (settings) {
-              //Homey.log(devices)
-              Homey.log(devices_data.length)
-              Homey.log(thermostats.length)
-              //Homey.log(devices)
-              self.updateState(evohomesystem,devices_data,'false',callback)
-            //devices_data.forEach(function(device_data){
-            //  Homey.log('Updating: ' + device_data.id)
-
-            //})
-          // getState(devices_data)
+        var timestamp_recurring = new Date()
+        evohomeDebugLog('[Evohome] Recurring Interval devices: ' + number_of_devices + ' : '+ timestamp_recurring)
+        //Homey.log('Number of devices to be updated: ' + thermostats.length)
+        if ( number_of_devices != 0 ) {
+          if (settings) {
+            Homey.log('start updateState > 0 devices')
+            //Homey.log(devices)
+            //Homey.log('recurring devices_data lengte: ' + devices_data.length)
+            //Homey.log('recurring thermostats lengte: ' + thermostats.length)
+            //Homey.log(devices)
+            self.updateState(evohomesystem,number_of_devices,'false',callback)
             }
           }
         }, 1000 * 60 * 5)
-
-
       callback()
-
   },
 
-  updateState: function ( evohomesystem, devices_data, initial_run,callback) {
-    //Homey.log ('initial run: ' + initial_run)
-    //Homey.log(devices_data)
+  updateState: function ( evohomesystem, number_of_devices, initial_run,callback) {
     var rawdata =[]
 
     evohomesystem.getAllInformation(function(rawdata) {
-      var rawdevices = rawdata[0]["devices"]
+      // First update: quickAction state
+      Homey.log('quickaction updatestate')
+      var qa_old = Homey.manager('settings').get('qa_status')
+      var qa_new = rawdata[0]["evoTouchSystemsStatus"][0]["quickAction"]
+
+      // Force a trigger update for test
+      //var tokens = { 'qa_name' : qa_new }
+      //Homey.log(tokens)
+      //Homey.manager('flow').trigger( 'quickaction_changed_externally', tokens)
+      //Homey.log('----')
+      // End-force trigger update for test
+
+      //Homey.log(qa_old)
+      if (qa_old) {
+        if (qa_old != qa_new) {
+          Homey.manager('settings').set('qa_status',qa_new)
+          evohomeDebugLog ('[updateState]: quickAction updated: old: ' + qa_old + ' new: ' + qa_new)
+          var tokens = { 'qa_name' : qa_new }
+          Homey.manager('flow').trigger('quickaction_changed_externally', tokens)
+        } else {
+          evohomeDebugLog ('[updateState]: quickAction no update: ' + qa_old)
+        }
+      } else {
+        Homey.manager('settings').set('qa_status',qa_new)
+        evohomeDebugLog ('[updateState]: quickAction initial set: ' + qa_new)
+      }
+
+      // Second update: devices state
+    var rawdevices = rawdata[0]["devices"]
     rawdevices.forEach(function(entry){
         //Homey.log(entry["deviceID"] + ' checken...')
-        Object.keys(thermostats).forEach(function (id) {
-          //Homey.log(id)
-        //devices_data.forEach(function(device_data) {
-          // !! BUG: als je device toevoegt terwijl app al draait, dan wordt deze nog niet meegenomen. Pas na herstarten weer
+       Homey.log('START %%%% Thermostat data %%%%')
+       Homey.log(thermostats)
+       Homey.log('END %%%% Thermostat data %%%%')
+       Object.keys(thermostats).forEach(function (id) {
+
+          //var temp_new = Number(Math.floor(Math.random() * (30 - 5) + 5))
+          //Homey.log(temp_new)
+          //module.exports.realtime(thermostats[id],'measure_temperature',temp_new)
+
+            //Homey.log(id)
           //Homey.log (entry["deviceID"] + ' vergelijken met ' + device_data.id)
-          if (id == entry["deviceID"]) {
-            Homey.log ('Gevonden: ' + thermostats[id].data.name)
+         if (id == entry["deviceID"]) {
+            evohomeDebugLog('[updateState] Device found: ' + thermostats[id].data.name)
+            // Test update
+            //Homey.log('$$$$$$$ realtime update $$$$$$')
+            //var temp_new = Number(Math.floor(Math.random() * (30 - 5) + 5))
+            //Homey.log(temp_new)
+            //module.exports.realtime(thermostats[id],'measure_temperature',temp_new)
+            //var temp_new = Number(Math.floor(Math.random() * (30 - 5) + 5))
+            //Homey.log(temp_new)
+            //Homey.log(thermostats[id].data)
+            //module.exports.realtime(thermostats[id].data,'measure_temperature',temp_new)
+            //var temp_new = Number(Math.floor(Math.random() * (30 - 5) + 5))
+            //Homey.log(temp_new)
+            //module.exports.realtime(thermostats[id].data.id,'measure_temperature',temp_new)
+            //Homey.log('$$$$$$$ realtime update end $$$$$$')
+
             // voer updates uit
             // check of temperatuur veranderd is
-            var temp_old = thermostats[id].data.temp
+            var temp_old = Number(thermostats[id].state.measure_temperature)
             var temp_new = Number(entry["thermostat"]["indoorTemperature"].toFixed(2))
             thermostats[ id ].state.measure_temperature = temp_new
-            //Homey.log ('target temperature: ' + Number(entry["thermostat"]["changeableValues"]["heatSetpoint"]["value"].toFixed(2)))
-            //Homey.log (thermostats[ device_data.id ].state.target_temperature)
             thermostats[ id ].state.target_temperature = Number(entry["thermostat"]["changeableValues"]["heatSetpoint"]["value"].toFixed(2))
-            //Homey.log (thermostats[ device_data.id ].state.target_temperature)
-            //Homey.log ('einde target temperature')
+            //module.exports.realtime(thermostats[id].data,'measure_temperature',temp_new + 1)
+
+            //Homey.log(thermostats[id].data.name)
+            //Homey.log(temp_new)
+            //Homey.log('temp change test')
             if ( temp_old != temp_new) {
+              //module.exports.realtime(thermostats[id].data,'measure_temperature',temp_new + 2)
               Homey.log ('temperatuur verschil gevonden')
-              //Homey.log (devices)
-              //Homey.log (device_data)
-              //Homey.log(temp_old)
-              //Homey.log(temp_new)
-              thermostats[ id ].data.temp = temp_new
-              thermostats[ id ].state.measure_temperature = temp_new
-              //Homey.log(device_data)
-              //Homey.log(devices)
-              //evohomeDebugLog (device_data.data.name + ': new temperature: ' + temp_new)
+              //Homey.log (thermostats[id].state)
+              //thermostats[ id ].state.measure_temperature = temp_new
+              //Homey.log (thermostats[id].state)
+              //module.exports.realtime(thermostats[id].data,'measure_temperature',temp_new + 3)
+              // door deze regel onder gaat de realtime update mis
+              //thermostats[ id ].data.temp = temp_new
+              // deze regel boven
               // During initial run, don't trigger update of temperature; it might not have changed
               if ( initial_run == 'false' ) {
+                //module.exports.realtime(thermostats[id].data,'measure_temperature',temp_new + 4)
+
                 //module.exports.realtime(device_data,'measure_temperature',temp_new)
-                module.exports.realtime(thermostats[id],'measure_temperature',temp_new)
+                evohomeDebugLog('[updateState]: measure_temperature update: ' + thermostats[id].data.name + ' old: ' + temp_old + ' new: ' + temp_new)
+                // the realtime will also trigger the individual device action card
+                //evohomeDebugLog('[updatestate]: Triggering flow: ' + thermostats[id].data.name)
+                //Homey.log(thermostats[id].data)
+                //Homey.log(temp_new)
+                //Homey.log('test')
+                //module.exports.realtime(thermostats[id].data,'measure_temperature',temp_new + 5)
+                //Homey.log('test')
+                Homey.log('thermostat data')
+                Homey.log(thermostats[id].data)
+                Homey.log('thermostat data')
+                module.exports.realtime(thermostats[id].data,'measure_temperature',temp_new)
+                // this will activate the 'any device changed' action card
+                Homey.manager('flow').trigger('any_measure_temp_changed', { "thermostat": thermostats[id].data.name, "temperature": temp_new })
+                  }
 
-              }
-
-              //var device_data.temp = temp_new
-              //Homey.log (device_data)
-              //Homey.log (devices)
-              //devices.push(device)
-            }
-            //Homey.log ('////////////')
+           }
               // TODO: check of naam veranderd is, zo ja, in Homey aanpassen indien mogelijk
-          }
-          //Homey.log('----VOLGENDE----')
-        })
+        }
+       })
       })
       Homey.log('---Einde updateState-----')
       //devices.push
@@ -202,6 +274,7 @@ deleted: function (device) {
     Homey.log(Object.keys(thermostats).length)
     evohomeDebugLog('delete thermostat: ', device)
     delete thermostats[device.id]
+    number_of_devices--
     Homey.log(Object.keys(thermostats).length)
 },
 
@@ -246,7 +319,10 @@ var settings = Homey.manager('settings').get('evohomeaccount')
       var rawdevices = rawdata[0]["devices"]
       devices = []
       //Homey.log(devices)
+
+
       Homey.log('++++++++++')
+
       //Homey.log(rawdevices)
       rawdevices.forEach(function(entry){
         var device = {
@@ -281,6 +357,7 @@ var settings = Homey.manager('settings').get('evohomeaccount')
     evohomeDebugLog('Added Evohome thermostat: ', device)
     //evohomesystem.updateState(devices,devices,function(callback){
       Homey.log('added device: ' + device)
+      number_of_devices++
       thermostats[device.data.id] = {
         data    : {
           id: device.data.id,
@@ -308,7 +385,7 @@ var settings = Homey.manager('settings').get('evohomeaccount')
       Homey.log(thermostats)
       //setTimeout(startMonitoring, 1000)
       // Set initial temperature in logging
-      module.exports.realtime(device.data,'measure_temperature',device.state.measure_temperature)
+      module.exports.realtime(thermostats[device.data.id].data,'measure_temperature',device.state.measure_temperature)
     //})
 
 

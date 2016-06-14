@@ -1,13 +1,13 @@
 {
     "id": "nl.bevlogenheid.evohome",
     "name": {
-        "en": "Evohome"
+        "en": "Honeywell Evohome"
     },
-    "version": "0.4.1",
+    "version": "0.4.2",
     "compatibility": ">=0.8.30",
     "description" : {
-	     "en" : "Control Evohome thermostats",
-       "nl" : "Bedien je Evohome verwarmingsinstallatie"
+	     "en" : "Control Honeywell Evohome thermostats",
+       "nl" : "Bedien je Honeywell Evohome verwarmingsinstallatie"
     },
     "author": {
         "name": "Ralf van Dooren",
@@ -51,6 +51,45 @@
     ],
     "flow": {
       "triggers": [
+        {
+          "id": "any_measure_temp_changed",
+          "title": {
+            "en": "Any changing temperature",
+            "nl": "Een temperatuur verandert"
+          },
+          "tokens": [
+            {
+              "name": "thermostat",
+              "title": {
+                "en": "device",
+                "nl": "thermostaat"
+              }
+            },
+            {
+              "name": "temperature",
+              "title": {
+                "en": "temperature",
+                "nl": "temperatuur"
+              }
+            }
+          ]
+        },
+        {
+          "id": "quickaction_changed_externally",
+          "title": {
+            "en": "Mode changed not via Homey",
+            "nl": "Modus aangepast buiten Homey"
+          },
+          "tokens": [
+            {
+              "name": "qa_name",
+              "title": {
+                "en": "modus",
+                "nl": "mode"
+              }
+            }
+          ]
+        }
         ],
        "conditions": [
        ],
@@ -106,6 +145,19 @@
                 ]
               }
             ]
+         },
+         {
+           "id": "set_quickaction_manual_entry",
+           "title": {
+             "en": "set QuickAction manual entry",
+             "nl": "activeer SnelleActie, handmatige invoer"
+           },
+           "args": [
+             {
+               "name": "qa",
+               "type": "text"
+             }
+           ]
          },
          {
            "id": "reset_temperature",
