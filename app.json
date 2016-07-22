@@ -3,7 +3,7 @@
     "name": {
         "en": "Honeywell Evohome"
     },
-    "version": "0.4.3",
+    "version": "0.4.4",
     "compatibility": ">=0.8.30",
     "description" : {
 	     "en" : "Control Honeywell Evohome thermostats",
