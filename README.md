@@ -82,7 +82,7 @@ Yes ;-)
 
 ### Changelog
 
-- V0.4.4 2016-07-22 : Removed some logging that cluttered the logging in settings
+- V0.4.5 2016-07-22 : Removed some logging that cluttered the logging in settings
 - V0.4.3 2016-06-15 : Solved 'first-run' bug
 - V0.4.2 2016-06-14 : extra trigger & action cards, fixed bugs, first code clean-up
 - V0.4.1 2016-06-09 : release for app store
