@@ -138,7 +138,7 @@ var self = module.exports = {
       // start interval
       setInterval(function(){
         var timestamp_recurring = new Date()
-        evohomeDebugLog('[Evohome] Recurring Interval devices: ' + number_of_devices + ' : '+ timestamp_recurring)
+        //evohomeDebugLog('[Evohome] Recurring Interval devices: ' + number_of_devices + ' : '+ timestamp_recurring)
         //Homey.log('Number of devices to be updated: ' + thermostats.length)
         Homey.log('START ^^^^^^^^ Number of devices check')
         Homey.log(number_of_devices)
@@ -190,7 +190,7 @@ var self = module.exports = {
           var tokens = { 'qa_name' : qa_new }
           Homey.manager('flow').trigger('quickaction_changed_externally', tokens)
         } else {
-          evohomeDebugLog ('[updateState]: quickAction no update: ' + qa_old)
+          //evohomeDebugLog ('[updateState]: quickAction no update: ' + qa_old)
         }
       } else {
         Homey.manager('settings').set('qa_status',qa_new)
@@ -201,9 +201,9 @@ var self = module.exports = {
     var rawdevices = rawdata[0]["devices"]
     rawdevices.forEach(function(entry){
         //Homey.log(entry["deviceID"] + ' checken...')
-       Homey.log('START %%%% Thermostat data %%%%')
-       Homey.log(thermostats)
-       Homey.log('END %%%% Thermostat data %%%%')
+       //Homey.log('START %%%% Thermostat data %%%%')
+       //Homey.log(thermostats)
+       //Homey.log('END %%%% Thermostat data %%%%')
        Object.keys(thermostats).forEach(function (id) {
 
           //var temp_new = Number(Math.floor(Math.random() * (30 - 5) + 5))
