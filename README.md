@@ -71,10 +71,7 @@ Only 1 Evohome system is supported right now. Let me know if you have multiple s
 
 In order of priority:
 
-- [SOLVED 0.4.3] When adding a device after first run of the app; there won't be any measurements until you restart the app. After that, you can add/remove devices all you like.
-- [SOLVED 0.4.2] Adding or removing devices while running would confuse the updates of devices, resulting in non-triggered events
-- [SOLVED 0.4.2] Insights logging wouldn't always work when a temperature change was detected
-- [SOLVED 0.4.2] Removing the app doesn't always remove the devices info (which can impact when you re-install the app)
+The API was changed, causing getting or setting the QuickAction system  status to fail. This would also halt the result of the settings. I've disable QuickAction getting. The Action cards are still there, but they will not update your system.
 
 ### Unknown bugs
 
@@ -82,6 +79,7 @@ Yes ;-)
 
 ### Changelog
 
+- V0.4.6 2016-08-04 : Disabled quickaction checking due to API change
 - V0.4.5 2016-07-22 : Removed some logging that cluttered the logging in settings
 - V0.4.3 2016-06-15 : Solved 'first-run' bug
 - V0.4.2 2016-06-14 : extra trigger & action cards, fixed bugs, first code clean-up
