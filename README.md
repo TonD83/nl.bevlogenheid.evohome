@@ -1,4 +1,4 @@
-### Honeywell Evohome
+cd .### Honeywell Evohome
 
 With this app you can manage your Evohome and other systems that connect via Total Connect Comfort from within Homey. It is using the unofficial API of Evohome.
 

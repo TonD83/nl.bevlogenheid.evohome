@@ -171,10 +171,11 @@ var self = module.exports = {
 
     evohomesystem.getAllInformation(function(rawdata) {
       // First update: quickAction state
-      Homey.log('quickaction updatestate')
-      var qa_old = Homey.manager('settings').get('qa_status')
-      var qa_new = rawdata[0]["evoTouchSystemsStatus"][0]["quickAction"]
-
+//      Homey.log('quickaction updatestate')
+//      var qa_old = Homey.manager('settings').get('qa_status')
+//      Homey.log(rawdata[0]["evoTouchSystemsStatus"])
+//      var qa_new = rawdata[0]["evoTouchSystemsStatus"][0]["quickAction"]
+//      Homey.log(qa_new)
       // Force a trigger update for test
       //var tokens = { 'qa_name' : qa_new }
       //Homey.log(tokens)
@@ -182,21 +183,20 @@ var self = module.exports = {
       //Homey.log('----')
       // End-force trigger update for test
 
-      //Homey.log(qa_old)
-      if (qa_old) {
-        if (qa_old != qa_new) {
-          Homey.manager('settings').set('qa_status',qa_new)
-          evohomeDebugLog ('[updateState]: quickAction updated: old: ' + qa_old + ' new: ' + qa_new)
-          var tokens = { 'qa_name' : qa_new }
-          Homey.manager('flow').trigger('quickaction_changed_externally', tokens)
-        } else {
-          //evohomeDebugLog ('[updateState]: quickAction no update: ' + qa_old)
-        }
-      } else {
-        Homey.manager('settings').set('qa_status',qa_new)
-        evohomeDebugLog ('[updateState]: quickAction initial set: ' + qa_new)
-      }
-
+//      if (qa_old) {
+//        if (qa_old != qa_new) {
+//          Homey.manager('settings').set('qa_status',qa_new)
+//          evohomeDebugLog ('[updateState]: quickAction updated: old: ' + qa_old + ' new: ' + qa_new)
+//          var tokens = { 'qa_name' : qa_new }
+//          Homey.manager('flow').trigger('quickaction_changed_externally', tokens)
+//        } else {
+//          Homey.log ('no quickaction update')
+//      }
+//      } else {
+//        Homey.manager('settings').set('qa_status',qa_new)
+//        evohomeDebugLog ('[updateState]: quickAction initial set: ' + qa_new)
+//      }
+//  Homey.log('test 2')
       // Second update: devices state
     var rawdevices = rawdata[0]["devices"]
     rawdevices.forEach(function(entry){
@@ -205,7 +205,6 @@ var self = module.exports = {
        //Homey.log(thermostats)
        //Homey.log('END %%%% Thermostat data %%%%')
        Object.keys(thermostats).forEach(function (id) {
-
           //var temp_new = Number(Math.floor(Math.random() * (30 - 5) + 5))
           //Homey.log(temp_new)
           //module.exports.realtime(thermostats[id],'measure_temperature',temp_new)
@@ -213,10 +212,11 @@ var self = module.exports = {
             //Homey.log(id)
           //Homey.log (entry["deviceID"] + ' vergelijken met ' + device_data.id)
          if (id == entry["deviceID"]) {
+
             //evohomeDebugLog('[updateState] Device found: ' + thermostats[id].data.name)
 
             // Test update
-            //Homey.log('$$$$$$$ realtime update $$$$$$')
+            Homey.log('$$$$$$$ realtime update $$$$$$')
             //var temp_new = Number(Math.floor(Math.random() * (30 - 5) + 5))
             //Homey.log(temp_new)
             //module.exports.realtime(thermostats[id],'measure_temperature',temp_new)
@@ -232,9 +232,14 @@ var self = module.exports = {
             // voer updates uit
             // check of temperatuur veranderd is
             var temp_old = Number(thermostats[id].state.measure_temperature)
+            Homey.log(temp_old)
             var temp_new = Number(entry["thermostat"]["indoorTemperature"].toFixed(2))
+            Homey.log(temp_new)
             thermostats[ id ].state.measure_temperature = temp_new
             thermostats[ id ].state.target_temperature = Number(entry["thermostat"]["changeableValues"]["heatSetpoint"]["value"].toFixed(2))
+            Homey.log('target temp')
+            Homey.log (Number(entry["thermostat"]["changeableValues"]["heatSetpoint"]["value"].toFixed(2)))
+            Homey.log('target temp')
             //module.exports.realtime(thermostats[id].data,'measure_temperature',temp_new + 1)
 
             //Homey.log(thermostats[id].data.name)
@@ -443,9 +448,9 @@ capabilities : {
 
       get: function( device_data, callback ) {
           Homey.log ('get target temperature')
-          Homey.log (device_data)
+          Homey.log (device_data.state)
           var device = thermostats [ device_data.id ]
-          //Homey.log ('get target_temperature: ' + device_data.state.target_temperature)
+          Homey.log ('get target_temperature: ' + device_data.state.target_temperature)
           //var bulb = getBulb( device_data.id );
           //if( bulb instanceof Error ) return callback( bulb );
 
