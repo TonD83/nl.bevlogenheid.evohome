@@ -1,4 +1,4 @@
-cd .### Honeywell Evohome
+### Honeywell Evohome
 
 With this app you can manage your Evohome and other systems that connect via Total Connect Comfort from within Homey. It is using the unofficial API of Evohome.
 
@@ -79,6 +79,7 @@ Yes ;-)
 
 ### Changelog
 
+- V0.4.7 2016-10-21 : Correct 'cancel temperature' implementation
 - V0.4.6 2016-08-04 : Disabled quickaction checking due to API change
 - V0.4.5 2016-07-22 : Removed some logging that cluttered the logging in settings
 - V0.4.3 2016-06-15 : Solved 'first-run' bug
