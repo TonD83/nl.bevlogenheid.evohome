@@ -71,7 +71,9 @@ Only 1 Evohome system is supported right now. Let me know if you have multiple s
 
 In order of priority:
 
-The API was changed, causing getting or setting the QuickAction system  status to fail. This would also halt the result of the settings. I've disable QuickAction getting. The Action cards are still there, but they will not update your system.
+The API was changed, causing getting or setting the QuickAction system  status to fail. This would also halt the result of the settings. I've disable QuickAction getting and setting. The Action cards are still there, but they will not update your system.
+
+[ Solved 0.4.7 ] : Cancel temperature didn't work in some circumstances. Should be OK now.
 
 ### Unknown bugs
 
