@@ -247,7 +247,7 @@ var self = module.exports = {
             {
               if ( initial_run == 'false') {
               Homey.log ('target temp verschil gevonden')
-              module.exports.realtime(thermostats[id].data,'target_temperature',temp_new)
+              module.exports.realtime(thermostats[id].data,'target_temperature',target_temp_new)
               evohomeDebugLog('[updateState]: target_temperature update: ' + thermostats[id].data.name + ' old: ' + target_temp_old + ' new: ' + target_temp_new)
               }
             }
