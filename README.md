@@ -56,7 +56,7 @@ If you like the app, consider a donation to support development
 
 ### Limitations
 
-Only 1 Evohome system is supported right now. Let me know if you have multiple systems (e.g. 2 houses).
+Due to an API change at Honeywell's side, causing getting or setting the QuickAction system status fails. This would also halt the result of the settings. I've disabled QuickAction getting and setting. The Action cards are still there, but they will not update your system, so they are non-functional.
 
 ### ToDo
 
@@ -71,7 +71,7 @@ Only 1 Evohome system is supported right now. Let me know if you have multiple s
 
 In order of priority:
 
-The API was changed, causing getting or setting the QuickAction system  status to fail. This would also halt the result of the settings. I've disable QuickAction getting and setting. The Action cards are still there, but they will not update your system.
+The API was changed,
 
 [ Solved 0.4.7 ] : Cancel temperature didn't work in some circumstances. Should be OK now.
 
@@ -81,6 +81,7 @@ Yes ;-)
 
 ### Changelog
 
+- V0.4.8 2016-11-07 : Added target_temperature logging
 - V0.4.7 2016-10-21 : Correct 'cancel temperature' implementation
 - V0.4.6 2016-08-04 : Disabled quickaction checking due to API change
 - V0.4.5 2016-07-22 : Removed some logging that cluttered the logging in settings

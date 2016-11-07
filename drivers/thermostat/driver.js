@@ -84,7 +84,7 @@ var self = module.exports = {
           Homey.log('===== device data====')
           Homey.log(device_data)
           Homey.log('===== device data====')
-          Homey.log('START @@@@@ Thermostat data @@@@')
+          //Homey.log('START @@@@@ Thermostat data @@@@')
           //Homey.log('initializing:' + device_data.id + ': ' + device_data.name)
           number_of_devices++
           Homey.log(number_of_devices)
@@ -97,8 +97,8 @@ var self = module.exports = {
                 }
 
             }
-          Homey.log(thermostats)
-          Homey.log('END @@@@@@ Thermostat data @@@@ ')
+          //Homey.log(thermostats)
+          //Homey.log('END @@@@@@ Thermostat data @@@@ ')
           devices[ device_data.id ] = {
                   data    : device_data,
                   state   : {
@@ -201,9 +201,9 @@ var self = module.exports = {
     var rawdevices = rawdata[0]["devices"]
     rawdevices.forEach(function(entry){
         //Homey.log(entry["deviceID"] + ' checken...')
-       Homey.log('START %%%% Thermostat data %%%%')
-       Homey.log(thermostats)
-       Homey.log('END %%%% Thermostat data %%%%')
+       //Homey.log('START %%%% Thermostat data %%%%')
+       //Homey.log(thermostats)
+       //Homey.log('END %%%% Thermostat data %%%%')
        Object.keys(thermostats).forEach(function (id) {
 
           //var temp_new = Number(Math.floor(Math.random() * (30 - 5) + 5))
@@ -234,9 +234,23 @@ var self = module.exports = {
             var temp_old = Number(thermostats[id].state.measure_temperature)
             var temp_new = Number(entry["thermostat"]["indoorTemperature"].toFixed(2))
             thermostats[ id ].state.measure_temperature = temp_new
+            var target_temp_old = Number(thermostats[ id ].state.target_temperature)
+            var target_temp_new = Number(entry["thermostat"]["changeableValues"]["heatSetpoint"]["value"])
             thermostats[ id ].state.target_temperature = Number(entry["thermostat"]["changeableValues"]["heatSetpoint"]["value"].toFixed(2))
             //module.exports.realtime(thermostats[id].data,'measure_temperature',temp_new + 1)
-
+            Homey.log (entry["thermostat"]["changeableValues"]["heatSetpoint"]["value"])
+            Homey.log ('------- Target temp ------')
+            Homey.log ('old: ' + target_temp_old)
+            Homey.log ('new: ' + target_temp_new)
+            Homey.log ('------- Target temp ------')
+            if ( target_temp_old != target_temp_new)
+            {
+              if ( initial_run == 'false') {
+              Homey.log ('target temp verschil gevonden')
+              module.exports.realtime(thermostats[id].data,'target_temperature',temp_new)
+              evohomeDebugLog('[updateState]: target_temperature update: ' + thermostats[id].data.name + ' old: ' + target_temp_old + ' new: ' + target_temp_new)
+              }
+            }
             //Homey.log(thermostats[id].data.name)
             //Homey.log(temp_new)
             //Homey.log('temp change test')
@@ -253,7 +267,7 @@ var self = module.exports = {
               // During initial run, don't trigger update of temperature; it might not have changed
               if ( initial_run == 'false' ) {
                 //module.exports.realtime(thermostats[id].data,'measure_temperature',temp_new + 4)
-
+                Homey.log ('temperatuur verschil gevonden')
                 //module.exports.realtime(device_data,'measure_temperature',temp_new)
                 evohomeDebugLog('[updateState]: measure_temperature update: ' + thermostats[id].data.name + ' old: ' + temp_old + ' new: ' + temp_new)
                 // the realtime will also trigger the individual device action card
@@ -263,9 +277,9 @@ var self = module.exports = {
                 //Homey.log('test')
                 //module.exports.realtime(thermostats[id].data,'measure_temperature',temp_new + 5)
                 //Homey.log('test')
-                Homey.log('thermostat data')
-                Homey.log(thermostats[id].data)
-                Homey.log('thermostat data')
+                //Homey.log('thermostat data')
+                //Homey.log(thermostats[id].data)
+                //Homey.log('thermostat data')
                 module.exports.realtime(thermostats[id].data,'measure_temperature',temp_new)
                 // this will activate the 'any device changed' action card
                 Homey.manager('flow').trigger('any_measure_temp_changed', { "thermostat": thermostats[id].data.name, "temperature": temp_new })
