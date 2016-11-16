@@ -487,16 +487,21 @@ capabilities : {
             evohomeDebugLog ('[capabilities] set temperature: ' + device_data.id + ' ' + target_temperature)
             // round to nearest 0.5 degrees (slider sometimes gives values not rounded to 0.5)
             var new_target = Number(Math.round(target_temperature * 2) / 2).toFixed(1)
-            Homey.log (new_target)
+            //Homey.log (new_target)
             if( typeof callback == 'function' ) {
               evohomesystem.setDeviceTemperature(device_data.id,new_target,function(callback) {
                   //module.exports.realtime(device_data,'target_temperature',temp_new)
                   evohomeDebugLog(device_data.id + ': new target temperature set: ' + new_target)
-                  Homey.log(device)
-                  device.state.target_temperature = Number(new_target)
-                  Homey.log (device.state.target_temperature)
-                  Homey.log (device)
-                  callback( null, new_target);
+                  //Homey.log('target setting')
+                  //Homey.log(device)
+                  //Homey.log('----')
+                  //Homey.log(thermostats[device_data.id])
+                  //Homey.log('target setting')
+                  //module.exports.realtime(device.data,'target_temperature',new_target)
+                  //thermostats[device_data.id].state.target_temperature = Number(new_target)
+                  //Homey.log(thermostats[device_data.id])
+                  //Homey.log('END SET TARGET')
+                  callback( null, thermostats[device_data.id].state.target_temperature)
               })
 
             }
