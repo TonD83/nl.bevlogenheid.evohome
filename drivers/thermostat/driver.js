@@ -1,4 +1,5 @@
 var Evohomey = require('../../lib/evohomey');
+var http = require('http.min')
 var Util = require('../../lib/util.js')
 var jsonPath = require('jsonpath-plus');
 var devices = {};
@@ -75,6 +76,17 @@ var self = module.exports = {
       // if( args.arg_id == 'something' )
       callback(null, true); // true to make the flow continue, or false to abort
   })
+
+    Homey.manager('flow').on('trigger.quickaction_changed_externally', function (callback, args) {
+      Homey.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+      Homey.log('QuickAction mode changed: ' + args)
+      if (args) {
+        callback( null, true )
+        return
+      }
+      callback(null,false)
+    })
+
 
       // when the driver starts, Homey rebooted. Initialize all previously paired devices.
       Homey.log('----devices data----')
@@ -162,7 +174,7 @@ var self = module.exports = {
             self.updateState(evohomesystem,number_of_devices,'false',callback)
             }
           }
-        }, 1000 * 60 * 5)
+        }, 1000 * 60 * 2)
       callback()
   },
 
@@ -171,31 +183,84 @@ var self = module.exports = {
 
     evohomesystem.getAllInformation(function(rawdata) {
       // First update: quickAction state
-//      Homey.log('quickaction updatestate')
-//      var qa_old = Homey.manager('settings').get('qa_status')
-//      var qa_new = rawdata[0]["evoTouchSystemsStatus"][0]["quickAction"]
-
-      // Force a trigger update for test
-      //var tokens = { 'qa_name' : qa_new }
-      //Homey.log(tokens)
-      //Homey.manager('flow').trigger( 'quickaction_changed_externally', tokens)
-      //Homey.log('----')
-      // End-force trigger update for test
-
-      //Homey.log(qa_old)
-//      if (qa_old) {
-//        if (qa_old != qa_new) {
-//          Homey.manager('settings').set('qa_status',qa_new)
-//          evohomeDebugLog ('[updateState]: quickAction updated: old: ' + qa_old + ' new: ' + qa_new)
-//          var tokens = { 'qa_name' : qa_new }
-//          Homey.manager('flow').trigger('quickaction_changed_externally', tokens)
-//        } else {
-//          evohomeDebugLog ('[updateState]: quickAction no update: ' + qa_old)
-//        }
-//      } else {
-//        Homey.manager('settings').set('qa_status',qa_new)
-//        evohomeDebugLog ('[updateState]: quickAction initial set: ' + qa_new)
-//      }
+      Homey.log('quickaction updatestate')
+      var qa_old = Homey.manager('settings').get('qa_status')
+      var options = {
+    		uri: 'https://tccna.honeywell.com/Auth/OAuth/Token',
+    	  headers: {
+    			'Authorization': 'Basic YjAxM2FhMjYtOTcyNC00ZGJkLTg4OTctMDQ4YjlhYWRhMjQ5OnRlc3Q=',
+    			'Accept': 'application/json, application/xml, text/json, text/x-json, text/javascript, text/xml'
+    		},
+    		json: true,
+    		form: {
+    			'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+    			'Host': 'rs.alarmnet.com/',
+    			'Cache-Control':'no-store no-cache',
+    			'Pragma': 'no-cache',
+    			'grant_type': 'password',
+    			'scope': 'EMEA-V1-Basic EMEA-V1-Anonymous EMEA-V1-Get-Current-User-Account',
+    			'Username': evohomesystem.user,
+    			'Password': evohomesystem.password,
+    			'Connection': 'Keep-Alive'
+    		}
+    	}
+    		http.put(options).then(function (data) {
+          //var resultaat = JSON.parse(data)
+    			var access_token = data.data.access_token
+    	  	Homey.log('Response access token:', data.data.access_token)
+        	// User data
+    			var options = {
+    				uri: 'https://tccna.honeywell.com/WebAPI/emea/api/v1/userAccount',
+    				headers : {
+    						'Authorization': 'bearer ' + access_token,
+    						'applicationId': 'b013aa26-9724-4dbd-8897-048b9aada249',
+    						'Accept': 'application/json, application/xml, text/json, text/x-json, text/javascript, text/xml'
+    				}
+    			}
+    			http.get(options).then(function (data) {
+    				 console.log('Userdata:', JSON.parse(data.data).userId)
+    				 var userID = JSON.parse(data.data).userId
+    				 // Installation data
+    				 var options = {
+    	 				uri: 'https://tccna.honeywell.com/WebAPI/emea/api/v1/location/installationInfo?userId=' + userID + '&includeTemperatureControlSystems=True',
+    	 				headers : {
+    	 						'Authorization': 'bearer ' + access_token,
+    	 						'applicationId': 'b013aa26-9724-4dbd-8897-048b9aada249',
+    	 						'Accept': 'application/json, application/xml, text/json, text/x-json, text/javascript, text/xml'
+    	 				}
+    	 			}
+    	 			http.get(options).then(function (data) {
+    	 				 var systemID = JSON.parse(data.data)[0].gateways[0].temperatureControlSystems[0].systemId
+    					 // System status
+    					 var options = {
+    		 				uri: 'https://tccna.honeywell.com/WebAPI/emea/api/v1/temperatureControlSystem/' + systemID + '/status',
+    		 				headers : {
+    		 						'Authorization': 'bearer ' + access_token,
+    		 						'applicationId': 'b013aa26-9724-4dbd-8897-048b9aada249',
+    		 						'Accept': 'application/json, application/xml, text/json, text/x-json, text/javascript, text/xml'
+    		 				}
+    		 			}
+    		 			http.get(options).then(function (data) {
+    		 				 console.log('System status:', JSON.parse(data.data).systemModeStatus.mode)
+    						 var qa_new = JSON.parse(data.data).systemModeStatus.mode
+                 if (qa_old) {
+                   if (qa_old != qa_new) {
+                     Homey.manager('settings').set('qa_status',qa_new)
+                     evohomeDebugLog ('[updateState]: quickAction updated: old: ' + qa_old + ' new: ' + qa_new)
+                     var tokens = { 'qa_name' : qa_new }
+                     Homey.log (tokens)
+                     Homey.manager('flow').trigger('quickaction_changed_externally', tokens)
+                    } else {
+                     evohomeDebugLog ('[updateState]: quickAction no update: ' + qa_old)
+                   }
+                 } else {
+                   Homey.manager('settings').set('qa_status',qa_new)
+                   evohomeDebugLog ('[updateState]: quickAction initial set: ' + qa_new)
+                 }
+              })
+            })
+          })
+        })
 
       // Second update: devices state
     var rawdevices = rawdata[0]["devices"]

@@ -4,18 +4,7 @@
 var Evohomey = require('./lib/evohomey')
 
 function trigger_actions () {
-
   Homey.log('trigger_actions')
-
-  //Homey.manager('flow').on('trigger.quickaction_changed_externally', function (callback, args, state) {
-  //  Homey.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-  //  Homey.log('QuickAction mode changed: ' + args)
-    //if {args} {
-  //    callback( null, true )
-  //    return
-    //}
-  //  callback(null,false)
-  //})
 
 }
 
@@ -74,7 +63,6 @@ function flow_actions () {
 var self = {
   init: function() {
      Homey.log("Evohome app started -- app.js")
-
      flow_actions()
      trigger_actions()
   }

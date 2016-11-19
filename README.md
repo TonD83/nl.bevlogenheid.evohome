@@ -1,6 +1,6 @@
 ### Honeywell Evohome
 
-With this app you can manage your Evohome and other systems that connect via Total Connect Comfort from within Homey. It is using the unofficial API of Evohome. Please read the limitations and bug description on QuickActions.
+With this app you can manage your Evohome and other systems that connect via Total Connect Comfort from within Homey. It is using the unofficial API of Evohome.
 
 ### Settings
 After installing the application, first visit the Homey Settings and navigate to the 'Honeywell Evohome' application.
@@ -56,7 +56,7 @@ If you like the app, consider a donation to support development
 
 ### Limitations
 
-Due to an API change at Honeywell's side, causing getting or setting the QuickAction system status fails. This would also halt the result of the settings. I've disabled QuickAction getting and setting. The Action cards are still there, but they will not update your system, so they are non-functional.
+Only 1 Evohome system is supported.
 
 ### ToDo
 
@@ -71,8 +71,7 @@ Due to an API change at Honeywell's side, causing getting or setting the QuickAc
 
 In order of priority:
 
-The API was changed, which causes QuickActions to not work. So QuickActions are disabled for now until the new API is implemented correctly
-
+[ Solved 1.0.0 ] : QuickActions are back
 [ Solved 0.4.9 ] : Logging and showing in cards of target temperature when set in a flow is now working
 [ Solved 0.4.7 ] : Cancel temperature didn't work in some circumstances. Should be OK now.
 
@@ -82,6 +81,7 @@ Yes ;-)
 
 ### Changelog
 
+- V1.0.0 2016-11-19 : Quick Action setting and triggering working again
 - V0.4.9 2016-11-16 : Bugfix for target_temperature reporting when setting the temperature via Homey. There is a maximum 5 minute delay before it shows in the device card and insight logging
 - V0.4.8 2016-11-07 : Added target_temperature logging
 - V0.4.7 2016-10-21 : Correct 'cancel temperature' implementation
