@@ -174,7 +174,7 @@ var self = module.exports = {
             self.updateState(evohomesystem,number_of_devices,'false',callback)
             }
           }
-        }, 1000 * 60 * 2)
+        }, 1000 * 60 * 5)
       callback()
   },
 
