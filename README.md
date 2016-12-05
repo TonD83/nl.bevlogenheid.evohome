@@ -81,6 +81,7 @@ Yes ;-)
 
 ### Changelog
 
+- V1.0.1 2016-11-05 : Action card to manually set the temperature instead of a slider
 - V1.0.0 2016-11-19 : Quick Action setting and triggering working again
 - V0.4.9 2016-11-16 : Bugfix for target_temperature reporting when setting the temperature via Homey. There is a maximum 5 minute delay before it shows in the device card and insight logging
 - V0.4.8 2016-11-07 : Added target_temperature logging

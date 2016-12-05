@@ -3,7 +3,7 @@
     "name": {
         "en": "Honeywell Evohome"
     },
-    "version": "1.0.0",
+    "version": "1.0.1",
     "compatibility": ">=0.8.30",
     "description" : {
 	     "en" : "Control Honeywell Evohome thermostats",
@@ -156,6 +156,29 @@
              {
                "name": "qa",
                "type": "text"
+             }
+           ]
+         },
+         {
+           "id": "set_temperature_manual",
+           "title": {
+             "en": "Set temperature by input",
+             "nl": "Stel temperatuur in"
+           },
+           "args": [
+             {
+               "name": "temp_manual",
+               "type": "number",
+               "attr": {
+                  "min": 0,
+                  "max": 30,
+                  "step": 0.5
+                }      
+             },
+             {
+               "name": "device",
+               "type": "device",
+               "filter": "driver_id=thermostat"
              }
            ]
          },
