@@ -168,12 +168,12 @@
            "args": [
              {
                "name": "temp_manual",
-               "type": "number",
+               "type": "text",
                "attr": {
                   "min": 0,
                   "max": 30,
                   "step": 0.5
-                }      
+                }
              },
              {
                "name": "device",

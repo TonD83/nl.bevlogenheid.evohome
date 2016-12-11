@@ -71,6 +71,7 @@ Only 1 Evohome system is supported.
 
 In order of priority:
 
+[ Solved 1.0.2 ] : Manual entry of set temperature didn't take any 'tokens' as input
 [ Solved 1.0.0 ] : QuickActions are back
 [ Solved 0.4.9 ] : Logging and showing in cards of target temperature when set in a flow is now working
 [ Solved 0.4.7 ] : Cancel temperature didn't work in some circumstances. Should be OK now.
@@ -81,7 +82,8 @@ Yes ;-)
 
 ### Changelog
 
-- V1.0.1 2016-11-05 : Action card to manually set the temperature instead of a slider
+- V1.0.2 2016-12-11 : Fixed bug in action card to use tokens for manual input
+- V1.0.1 2016-12-05 : Action card to manually set the temperature instead of a slider
 - V1.0.0 2016-11-19 : Quick Action setting and triggering working again
 - V0.4.9 2016-11-16 : Bugfix for target_temperature reporting when setting the temperature via Homey. There is a maximum 5 minute delay before it shows in the device card and insight logging
 - V0.4.8 2016-11-07 : Added target_temperature logging
