@@ -417,6 +417,10 @@ var settings = Homey.manager('settings').get('evohomeaccount')
 
       //Homey.log(rawdevices)
       rawdevices.forEach(function(entry){
+        Homey.log(entry["thermostatModelType"])
+        if  (entry["thermostatModelType"]!= 'EMEA_ZONE') {
+            Homey.log ('no thermostat, skipping')
+        } else {
         var device = {
           name: entry["name"],
           data: {
@@ -434,6 +438,7 @@ var settings = Homey.manager('settings').get('evohomeaccount')
         //Homey.log(device)
         Homey.log('--------------------------------')
         devices.push(device)
+       }
         })
         Homey.log('list devices resultaat: ' + devices)
         callback(null, devices)

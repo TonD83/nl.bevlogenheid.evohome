@@ -82,6 +82,7 @@ Yes ;-)
 
 ### Changelog
 
+- V1.0.4 2017-09-05 : Ignore hot water devices in thermostat driver
 - V1.0.3 2017-09-04 : Ignore reading of 128 degrees of thermostats (128 = controller received no input from thermostat)
 - V1.0.2 2016-12-11 : Fixed bug in action card to use tokens for manual input
 - V1.0.1 2016-12-05 : Action card to manually set the temperature instead of a slider
