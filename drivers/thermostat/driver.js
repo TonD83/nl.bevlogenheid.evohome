@@ -507,10 +507,17 @@ capabilities : {
         get: function( device_data, callback ){
             // currently, it will not actively retrieve the data, but use the stored data
             var device = thermostats [ device_data.id ]
-            evohomeDebugLog ('measure temperature: ' + device_data.id + ' : ' + device_data.name + " : " + device.state.measure_temperature)
-            // send the dim value to Homey
-            if( typeof callback == 'function' ) {
-                callback( null, device.state.measure_temperature );
+            if ( typeof device.state.measure_temperature !== 'undefined' ) {
+              if (device.state.measure_temperature == '128') {
+                evohomeDebugLog ('measure temperature: ' + device_data.id + ' : ' + device_data.name + " : unknown: received 128")
+              } else {
+                evohomeDebugLog ('measure temperature: ' + device_data.id + ' : ' + device_data.name + " : " + device.state.measure_temperature)
+                // send the dim value to Homey
+                if( typeof callback == 'function' ) {
+                  callback( null, device.state.measure_temperature );
+                }
+              }
+
             }
         }
         // this function is called by Homey when it wants to SET the dim state, e.g. when the user says 'red lights'
