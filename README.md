@@ -60,6 +60,8 @@ Only 1 Evohome system is supported.
 
 ### ToDo
 
+- Add hot water device support
+- Add multiple location support
 - Add target temperature triggers
 - Add speech support
 - Clean-up code
