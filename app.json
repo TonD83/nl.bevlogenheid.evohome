@@ -3,7 +3,7 @@
     "name": {
         "en": "Honeywell Evohome"
     },
-    "version": "1.0.4",
+    "version": "1.0.5",
     "compatibility": ">=0.8.30",
     "description" : {
 	     "en" : "Control Honeywell Evohome thermostats",
@@ -67,6 +67,7 @@
             },
             {
               "name": "temperature",
+              "type": "number",
               "title": {
                 "en": "temperature",
                 "nl": "temperatuur"
