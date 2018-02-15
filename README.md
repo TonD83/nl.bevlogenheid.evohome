@@ -2,6 +2,22 @@
 
 With this app you can manage your Evohome and other systems that connect via Total Connect Comfort from within Homey. It is using the unofficial API of Evohome.
 
+### Supported devices
+
+The following devices are known to work with the app:
+
+Control systems:
+
+- Evohome ( + gateway RFG100 )
+- Evohome Wifi
+- Round Wireless ( + gateway RFG100 )
+
+Thermostats (always in combination with Control system)
+
+- HR92
+
+Not in the list? It still could be supported; as long as your thermostat can be controlled via the Total Connect Comfort app, it should be controllable by the Homey app. Feedback is appreciated, so I can adjust the list.
+
 ### Settings
 After installing the application, first visit the Homey Settings and navigate to the 'Honeywell Evohome' application.
 
@@ -84,6 +100,7 @@ Yes ;-)
 
 ### Changelog
 
+- V1.0.6 2018-02-15 : Add supported devices in README
 - V1.0.5 2017-11-21 : Evohome tag of temperature bugfix (number instead of string)
 - V1.0.4 2017-09-05 : Ignore hot water devices in thermostat driver
 - V1.0.3 2017-09-04 : Ignore reading of 128 degrees of thermostats (128 = controller received no input from thermostat)
