@@ -1,6 +1,7 @@
 //var jsonPath = require('jsonpath-plus')
 //var http = require('http.min')
 //var parseString = require('xml2js').parseString
+const Log = require('homey-log').Log;
 var Evohomey = require('./lib/evohomey')
 
 function trigger_actions () {
@@ -97,6 +98,7 @@ function flow_actions () {
 var self = {
   init: function() {
      Homey.log("Evohome app started -- app.js")
+     Log.captureMessage("Evohome app started")
      flow_actions()
      trigger_actions()
   }

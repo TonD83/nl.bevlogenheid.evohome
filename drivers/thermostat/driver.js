@@ -9,6 +9,7 @@ var sessionID = ("empty");
 var userID = ("empty");
 var locationID = ("empty");
 var allinformation = [];
+const Log = require('homey-log').Log;
 
 var debugSetting = true;
 var debugLog = [];
@@ -418,7 +419,7 @@ var settings = Homey.manager('settings').get('evohomeaccount')
       //Homey.log(rawdevices)
       rawdevices.forEach(function(entry){
         Homey.log(entry["thermostatModelType"])
-        if  (entry["thermostatModelType"]!= 'EMEA_ZONE') or (entry["thermostatModelType"]!= 'EMEA_ROUND_MODULATION') {
+        if  ((entry["thermostatModelType"]!= 'EMEA_ZONE') && (entry["thermostatModelType"]!= 'EMEA_ROUND_MODULATION')) {
             Homey.log ('no thermostat, skipping')
         } else {
         var device = {
