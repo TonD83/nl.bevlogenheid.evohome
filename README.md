@@ -4,6 +4,7 @@ Working
 
 - starting app, initializing driver with stored Thermostats
 - storing and retrieving credentials in Homey
+- OATH token en expiry ophalen (wordt opgeslagen in ManagerSettings)
 
 In progress
 
@@ -11,6 +12,10 @@ In progress
 
 
 == OLD code in 'old/' directory ==
+
+Code: https://github.com/gordonb3/evohomeclient && https://github.com/watchforstock/evohome-client/tree/master/evohomeclient2
+
+
 
 
 ### END SDK 2 Notes ###
