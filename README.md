@@ -1,3 +1,20 @@
+### SDK 2 Notes ###
+
+Working
+
+- starting app, initializing driver with stored Thermostats
+- storing and retrieving credentials in Homey
+
+In progress
+
+- retrieving old account Settings (settings/index.html) ( for migration from v1 app )
+
+
+== OLD code in 'old/' directory ==
+
+
+### END SDK 2 Notes ###
+
 ### Honeywell Evohome
 
 With this app you can manage your Evohome and other systems that connect via Total Connect Comfort from within Homey. It is using the unofficial API of Evohome.
