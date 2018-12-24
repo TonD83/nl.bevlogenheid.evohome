@@ -4,19 +4,17 @@ Working
 
 - starting app, initializing driver with stored Thermostats
 - storing and retrieving credentials in Homey
-- OATH token en expiry ophalen (wordt opgeslagen in ManagerSettings)
+- OATH token and expiry ophalen (being stored in ManagerSettings)
 
 In progress
 
+- OATH check token expired or not
 - retrieving old account Settings (settings/index.html) ( for migration from v1 app )
 
 
 == OLD code in 'old/' directory ==
 
-Code: https://github.com/gordonb3/evohomeclient && https://github.com/watchforstock/evohome-client/tree/master/evohomeclient2
-
-
-
+Working non-Homey Code: https://github.com/gordonb3/evohomeclient && https://github.com/watchforstock/evohome-client/tree/master/evohomeclient2
 
 ### END SDK 2 Notes ###
 
