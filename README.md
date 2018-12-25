@@ -16,7 +16,7 @@ Next up
 2 - QuickAction zetten
 3 - Zones uitlezen
 4 - Zones zetten
-5 - Pairing van thermostaten
+5 - Pairing van thermostaten --> push naar BETA want identieke functionaliteit
 6 - Pairing met meerdere locaties
 
 
