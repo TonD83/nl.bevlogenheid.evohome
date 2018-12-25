@@ -5,14 +5,13 @@ Working
 - starting app, initializing driver with stored Thermostats
 - storing and retrieving credentials in Homey
 - OATH token and expiry ophalen (being stored in ManagerSettings)
+- Retrieve QA status, trigger card
 
 In progress
 
-- Retrieve QuickAction status
 - retrieving old account Settings (settings/index.html) ( for migration from v1 app )
 
 Next up
-1 - QuickAction uitlezen
 2 - QuickAction zetten
 3 - Zones uitlezen
 4 - Zones zetten

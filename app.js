@@ -55,10 +55,36 @@ class Evohome extends Homey.App {
 
  //// MAIN
 
- evohomey.quickaction_read();
+// tijdelijk voor tests:
+
+  Homey.ManagerSettings.set('qa','Away');
+//
+
+
+ var quickactionPromise  = evohomey.quickaction_read();
+ quickactionPromise.then(function(result) {
+    var qa_new = result;
+    console.log(qa_new);
+    var qa_old = Homey.ManagerSettings.get('qa')
+    console.log(qa_old);
+    if (qa_old != qa_new) {
+      // Trigger quickaction_changed_externally
+      console.log ('quickaction changed')
+      Homey.ManagerSettings.set('qa',qa_new);
+      let quickaction_changed_externally = new Homey.FlowCardTrigger('quickaction_changed_externally');
+      let tokens = {
+        'qa_name': qa_new
+      }
+      quickaction_changed_externally
+      .register()
+      .trigger(tokens)
+        .catch(this.error)
+        .then(this.log)
+    }
+});
 
  //// END MAIN
-  }
+  } // end oninit
 }
 
 module.exports = Evohome;
