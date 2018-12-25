@@ -11,6 +11,14 @@ In progress
 - OATH check token expired or not
 - retrieving old account Settings (settings/index.html) ( for migration from v1 app )
 
+Next up
+1 - QuickAction uitlezen
+2 - QuickAction zetten
+3 - Zones uitlezen
+4 - Zones zetten
+5 - Pairing van thermostaten
+6 - Pairing met meerdere locaties
+
 
 == OLD code in 'old/' directory ==
 
