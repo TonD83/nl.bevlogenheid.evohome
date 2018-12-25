@@ -8,7 +8,7 @@ Working
 
 In progress
 
-- OATH check token expired or not
+- Retrieve QuickAction status
 - retrieving old account Settings (settings/index.html) ( for migration from v1 app )
 
 Next up
