@@ -6,6 +6,8 @@ Working
 - storing and retrieving credentials in Homey
 - OATH token and expiry ophalen (being stored in ManagerSettings)
 - Retrieve QA status, trigger card
+- Submit QA status (predefined) to Evohome system.
+- 5 minute interval
 
 In progress
 
@@ -14,7 +16,7 @@ In progress
 Next up
 2 - QuickAction zetten
 3 - Zones uitlezen
-4 - Zones zetten
+4 - Zones zetten --> evt push naar beta, voor mensen die niet hoeven te pairen
 5 - Pairing van thermostaten --> push naar BETA want identieke functionaliteit
 6 - Pairing met meerdere locaties
 

@@ -23,50 +23,42 @@ class Evohome extends Homey.App {
 
 // set_quickaction
 
+let set_quickaction = new Homey.FlowCardAction('set_quickaction');
+set_quickaction
+    .register()
+    .registerRunListener(( args, state ) => {
+        this.log(args['qa'])
+        let qa_set = evohomey.quickaction_set(args['qa']); // true or false
+        Homey.ManagerSettings.set('quickAction',args['qa']);
+        return Promise.resolve( qa_set );
+
+    })
+
 // set_quickaction_manual_entry
 
 // set_temperature_manual (device)
 
 // reset_temperature (device)
 
-//var evohomeUser = Homey.ManagerSettings.get('username');
-//var evohomePassword= Homey.ManagerSettings.get('password');
-//var appid="91db1612-73fd-4500-91b2-e63b069b185c"
-
-//    evohomey.login(evohomeUser,evohomePassword,appid);
-//    var access_token = Homey.ManagerSettings.get('access_token');
-//    var access_token_expires = Homey.ManagerSettings.get('access_token_expires');
-    //console.log(access_token);
-    //console.log(access_token_expires);
-  //  setInterval(timers_update,1000);
-	//   function timers_update() {
-  //     var access_token_expires = Homey.ManagerSettings.get('access_token_expires');
-  //     //console.log(access_token);
-  //     //console.log(access_token_expires);
-  //     var huidigeTime = new Date();
-  //     //console.log('huidige tijd: ', huidigeTime);
-  //     var difference = access_token_expires - huidigeTime;
-  //     if (difference < 0)
-  //     {
-  //       console.log ('token expired');
-  //     }
-  //  }
-
-
  //// MAIN
 
 // tijdelijk voor tests:
-
-  Homey.ManagerSettings.set('qa','Away');
+//  Homey.ManagerSettings.set('qa','Away');
 //
 
-
- var quickactionPromise  = evohomey.quickaction_read();
- quickactionPromise.then(function(result) {
+ console.log('-----')
+ regular_update(); // kick-off during start-up
+setInterval(regular_update,5 * 60 * 1000);
+function regular_update() {
+    console.log('5 minute update routine')
+    // 1 - quickaction status uitlezen
+    // 2 - zone status uitlezen
+    var quickactionPromise  = evohomey.quickaction_read();
+    quickactionPromise.then(function(result) {
     var qa_new = result;
-    console.log(qa_new);
+    console.log('QA retrieved: ', qa_new);
     var qa_old = Homey.ManagerSettings.get('qa')
-    console.log(qa_old);
+    console.log('QA Stored: ',qa_old);
     if (qa_old != qa_new) {
       // Trigger quickaction_changed_externally
       console.log ('quickaction changed')
@@ -82,6 +74,8 @@ class Evohome extends Homey.App {
         .then(this.log)
     }
 });
+
+} // 5 minute update
 
  //// END MAIN
   } // end oninit
