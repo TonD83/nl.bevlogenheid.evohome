@@ -49,19 +49,19 @@ var appid="91db1612-73fd-4500-91b2-e63b069b185c"
     var access_token_expires = Homey.ManagerSettings.get('access_token_expires');
     //console.log(access_token);
     //console.log(access_token_expires);
-    setInterval(timers_update,1000);
-	   function timers_update() {
-       var access_token_expires = Homey.ManagerSettings.get('access_token_expires');
-       //console.log(access_token);
-       //console.log(access_token_expires);
-       var huidigeTime = new Date();
-       //console.log('huidige tijd: ', huidigeTime);
-       var difference = access_token_expires - huidigeTime;
-       if (difference < 0)
-       {
-         console.log ('token expired');
-       }
-    }
+  //  setInterval(timers_update,1000);
+	//   function timers_update() {
+  //     var access_token_expires = Homey.ManagerSettings.get('access_token_expires');
+  //     //console.log(access_token);
+  //     //console.log(access_token_expires);
+  //     var huidigeTime = new Date();
+  //     //console.log('huidige tijd: ', huidigeTime);
+  //     var difference = access_token_expires - huidigeTime;
+  //     if (difference < 0)
+  //     {
+  //       console.log ('token expired');
+  //     }
+  //  }
 
   }
 }
