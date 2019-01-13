@@ -9,6 +9,7 @@ Working
 - Submit QA status (predefined) to Evohome system.
 - 5 minute interval
 - Pairing (based on new ID, so migration but most probably re-pairing is needed)
+    - Pairing is currently based on 1 location only.
 - Retrieve zone data ( temperature + set temperature)
 
 In progress
@@ -17,10 +18,10 @@ In progress
 - retrieving old account Settings (settings/index.html) ( for migration from v1 app )
 
 Next up
-3 - Zones uitlezen
+3 - IN PROGRESS Zones uitlezen
 4 - Zones zetten --> evt push naar beta, voor mensen die niet hoeven te pairen
-5 - Pairing van thermostaten --> push naar BETA want identieke functionaliteit
-6 - Pairing met meerdere locaties
+5 - IN PROGRESS Pairing van thermostaten --> push naar BETA want identieke functionaliteit
+6 - Pairing met meerdere locaties ( data model prepared for this, I think )
 
 KNOWN BUGS
 
