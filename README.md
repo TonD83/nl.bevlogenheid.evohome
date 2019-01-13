@@ -22,6 +22,10 @@ Next up
 5 - Pairing van thermostaten --> push naar BETA want identieke functionaliteit
 6 - Pairing met meerdere locaties
 
+KNOWN BUGS
+
+- If token expired, sometimes a read of zones and quickactions will not result in an update and even an error in the console. Doesn't crash app, all next actions (e.g.next update (after 5 minutes)) is OK.
+- Pairing code needs its own login function . 1-on-1 Copied from evohomey.js function
 
 == OLD code in 'old/' directory ==
 
