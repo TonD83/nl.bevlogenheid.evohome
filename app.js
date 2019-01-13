@@ -36,6 +36,28 @@ set_quickaction
 
 // set_quickaction_manual_entry
 
+let set_quickaction_manual_entry = new Homey.FlowCardAction('set_quickaction_manual_entry');
+set_quickaction_manual_entry
+    .register()
+    .registerRunListener(( args, state ) => {
+        this.log('quickaction manual entry')
+        this.log(args['qa'])
+        switch(args['qa']) {
+            case "HeatingOff":
+            case "Auto":
+            case "AutoWithEco":
+            case "Away":
+            case "Custom":
+            case "DayOff":
+              let qa_set = evohomey.quickaction_set(args['qa']); // true or false
+              Homey.ManagerSettings.set('quickAction',args['qa']);
+              return Promise.resolve( qa_set );
+                break
+              default:
+                return Promise.reject ('invalidSettings')
+            }
+    })
+
 // set_temperature_manual (device)
 
 // reset_temperature (device)
