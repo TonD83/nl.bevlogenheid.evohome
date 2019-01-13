@@ -13,11 +13,10 @@ class ThermostatDevice extends Homey.Device {
         this.log('settings:'), this.getData();
 
         // register a capability listener
-        this.registerCapabilityListener('target_temperature', (value, opts) => {
+        this.registerCapabilityListener('target_temperature', async (value) => {
             this.log('target temperature set requested')
             var target_old = this.getCapabilityValue('target_temperature')
             this.log('old:', target_old)
-            this.log(value)
             this.log(opts)
             if (target_old != value) {
               // execute target setting

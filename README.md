@@ -8,13 +8,15 @@ Working
 - Retrieve QA status, trigger card
 - Submit QA status (predefined) to Evohome system.
 - 5 minute interval
+- Pairing (based on new ID, so migration but most probably re-pairing is needed)
+- Retrieve zone data ( temperature + set temperature)
 
 In progress
 
+- Process retrieved zone data
 - retrieving old account Settings (settings/index.html) ( for migration from v1 app )
 
 Next up
-2 - QuickAction zetten
 3 - Zones uitlezen
 4 - Zones zetten --> evt push naar beta, voor mensen die niet hoeven te pairen
 5 - Pairing van thermostaten --> push naar BETA want identieke functionaliteit

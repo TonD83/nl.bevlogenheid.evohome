@@ -52,7 +52,7 @@ setInterval(regular_update,5 * 60 * 1000);
 function regular_update() {
     console.log('5 minute update routine')
     // 1 - quickaction status uitlezen
-    // 2 - zone status uitlezen
+    console.log('quickaction read')
     var quickactionPromise  = evohomey.quickaction_read();
     quickactionPromise.then(function(result) {
     var qa_new = result;
@@ -73,6 +73,14 @@ function regular_update() {
         .catch(this.error)
         .then(this.log)
     }
+    // 2 - zone status uitlezen
+    console.log('zone status read')
+    var zonePromise = evohomey.zones_read();
+    zonePromise.then(function(result) {
+      var data = result;
+      console.log(data);
+      // hier dingen uitvoeren
+    })
 });
 
 } // 5 minute update
