@@ -33,6 +33,7 @@ Future features
 - Check when heating mode is changing ( e.g. following  schedule , permament, etc)
 - Time limits on quick Actions
 - Time limits on temperature heatSetpoint
+- DHW (hot water device)
 
 
 KNOWN BUGS
