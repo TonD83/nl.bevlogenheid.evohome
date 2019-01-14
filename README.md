@@ -10,17 +10,17 @@ Working
 - 5 minute interval
 - Pairing (based on new ID, so migration but most probably re-pairing is needed)
     - Pairing is currently based on 1 location only.
-- Retrieve zone data ( temperature + set temperature)
+- Retrieve zone data ( temperature + set temperature) (no processing yet)
+- set individual temperature zones + reset
 
 In progress
 
 - Process retrieved zone data (dit moet in device.js, maar hoe voorkom je dat hij voor elk device opnieuw de URL aanroept, want dan ga je tegen accountlimits aanlopen)
-  - mogelijke oplossing; in app.js de boel uitlezen, die in settings opslaan per ID, en dat dan elke 5 minuten weer uitleen in device.js ; zie ook https://github.com/athombv/nl.thermosmart/blob/abe2f2f8a94c22350bf32d2e23d3b30bc494e050/drivers/thermostat/device.js
+  - mogelijke oplossing; in app.js de boel uitlezen, die in settings opslaan per ID, en dat dan elke 5 minuten weer uitlezen in device.js ; zie ook https://github.com/athombv/nl.thermosmart/blob/abe2f2f8a94c22350bf32d2e23d3b30bc494e050/drivers/thermostat/device.js
 - retrieving old account Settings (settings/index.html) ( for migration from v1 app )
 
 Next up
 3 - IN PROGRESS Zones uitlezen
-4 - Zones zetten --> evt push naar beta, voor mensen die niet hoeven te pairen
 5 - IN PROGRESS Pairing van thermostaten --> push naar BETA want identieke functionaliteit
 6 - Pairing met meerdere locaties ( data model prepared for this, I think )
 

@@ -60,8 +60,27 @@ set_quickaction_manual_entry
 
 // set_temperature_manual (device)
 
+let set_temperature_manual = new Homey.FlowCardAction('set_temperature_manual');
+set_temperature_manual
+    .register()
+    .registerRunListener(( args, state ) => {
+        this.log('temperature manual entry')
+        this.log(args.device._id)
+        let temp_set = evohomey.temperature_set(args.device._id,args['temp_manual'],1)
+        return Promise.resolve( 'temp_set' );
+    })
+
 // reset_temperature (device)
 
+let reset_temperature = new Homey.FlowCardAction('reset_temperature');
+reset_temperature
+    .register()
+    .registerRunListener(( args, state ) => {
+        this.log('temperature reset')
+        this.log(args.device._id)
+        let temp_reset = evohomey.temperature_set(args.device._id,'0.0',0)
+        return Promise.resolve( 'temp_reset' );
+    })
  //// MAIN
 
 // tijdelijk voor tests:
