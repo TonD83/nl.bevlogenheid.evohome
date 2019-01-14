@@ -11,16 +11,6 @@ class Evohome extends Homey.App {
     Homey.ManagerSettings.set('account_info','None');
     Homey.ManagerSettings.set('installation','None');
 
-// TRIGGERS
-
-//any_measure_temp_changed
-
-//quickaction_changed_externally
-
-// CONDITIONS
-
-// ACTIONS
-
 // set_quickaction
 
 let set_quickaction = new Homey.FlowCardAction('set_quickaction');
@@ -78,7 +68,7 @@ reset_temperature
     .registerRunListener(( args, state ) => {
         this.log('temperature reset')
         this.log(args.device._id)
-        let temp_reset = evohomey.temperature_set(args.device._id,'0.0',0)
+        let temp_reset = evohomey.temperature_set(args.device._id,'',0)
         return Promise.resolve( 'temp_reset' );
     })
  //// MAIN
@@ -119,7 +109,8 @@ function regular_update() {
     var zonePromise = evohomey.zones_read();
     zonePromise.then(function(result) {
       var data = result;
-      console.log(data);
+      console.log('hier gebeurt niets volgens mij');
+      //Homey.ManagerSettings.set('zones_read','test');
       // hier dingen uitvoeren
     })
 });

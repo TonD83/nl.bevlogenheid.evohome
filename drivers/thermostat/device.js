@@ -4,23 +4,31 @@ const Homey = require('homey');
 var jsonPath = require('jsonpath-plus')
 var http = require('http.min')
 
+const POLL_INTERVAL = 1000 * 20 * 1; // 20 seconds
+
 class ThermostatDevice extends Homey.Device {
 
     // this method is called when the Device is inited
     onInit() {
-        this.log('device init');
-        this.log('name:', this.getName());
+        let device = this;
+        //this.log('device init');
+        this.log('device init name:', this.getName());
         //this.log('class:', this.getClass());
         //this.log('capability:', this.getCapabilities());
-        this.log('settings:'), this.getData();
+        //this.log('settings:'), this.getData();
         const { id } = this.getData();
-		    this._id = id;
-        this.log('id:', id);
+		    //this._id = id;
+        //this.log('id:', id);
         var target_old = this.getCapabilityValue('target_temperature')
-        this.log('target_temperature:', target_old)
+        //this.log('target_temperature:', target_old)
         var measure_old = this.getCapabilityValue('measure_temperature')
-        this.log('measure_temperature:', measure_old)
+        //this.log('measure_temperature:', measure_old)
 
+      //regular_update(this,id); // kick-off during start-up
+       //setInterval(regular_update,POLL_INTERVAL);
+
+       this._sync = this._sync.bind(this);
+  	    this._syncInterval = setInterval(this._sync, POLL_INTERVAL);
         // register a capability listener
         this.registerCapabilityListener('target_temperature', async (value) => {
         this.log('target temperature set requested')
@@ -72,6 +80,9 @@ class ThermostatDevice extends Homey.Device {
             }
         })
 
+        // read zone information
+        // dit moeten we elke paar minuten draaien
+
     }
 
     // this method is called when the Device is added
@@ -84,6 +95,34 @@ class ThermostatDevice extends Homey.Device {
         this.log('device deleted');
     }
 
+    // capabilities checking
+    _sync() {
+      var zone_data = Homey.ManagerSettings.get('zones_read');
+      const { id } = this.getData();
+      let device = this;
+      zone_data.forEach(function(value){
+        if ( value.zoneId == id) {
+            device.log('-- device interval checking for changes --', value.name, value.zoneId, value.temperatureStatus.temperature, value.heatSetpointStatus.targetTemperature );
+            // process zone information
+            var target_old = device.getCapabilityValue('target_temperature')
+            var measure_old = device.getCapabilityValue('measure_temperature')
+            if ( measure_old != value.temperatureStatus.temperature) {
+              console.log('trigger temperature changecard', measure_old, value.temperatureStatus.temperature)
+              device.setCapabilityValue('measure_temperature',value.temperatureStatus.temperature)
+              let anytempchange = new Homey.FlowCardTrigger('any_measure_temp_changed');
+              let tokens = {
+                'thermostat': value.name,
+                'temperature': value.temperatureStatus.temperature
+              }
+              anytempchange
+              .register()
+              .trigger( tokens )
+              .catch( device.error )
+              .then( device.log )
+                }
+        }
+      });
+    }
 }
 
 module.exports = ThermostatDevice;

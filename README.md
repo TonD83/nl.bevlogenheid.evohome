@@ -10,24 +10,36 @@ Working
 - 5 minute interval
 - Pairing (based on new ID, so migration but most probably re-pairing is needed)
     - Pairing is currently based on 1 location only.
-- Retrieve zone data ( temperature + set temperature) (no processing yet)
-- set individual temperature zones + reset
+- Retrieve zone data ( temperature + set temperature)
+- set individual temperature zones + reset ( possible bug in reset )
+- Processing zone data for measure_temperature
+
 
 In progress
 
+- TODO process target_temperature data (same as measure_temperature, wellicht nieuwe trigger card toevoegen)
 - Process retrieved zone data (dit moet in device.js, maar hoe voorkom je dat hij voor elk device opnieuw de URL aanroept, want dan ga je tegen accountlimits aanlopen)
   - mogelijke oplossing; in app.js de boel uitlezen, die in settings opslaan per ID, en dat dan elke 5 minuten weer uitlezen in device.js ; zie ook https://github.com/athombv/nl.thermosmart/blob/abe2f2f8a94c22350bf32d2e23d3b30bc494e050/drivers/thermostat/device.js
 - retrieving old account Settings (settings/index.html) ( for migration from v1 app )
 
 Next up
-3 - IN PROGRESS Zones uitlezen
+3 - DONE Zones uitlezen
 5 - IN PROGRESS Pairing van thermostaten --> push naar BETA want identieke functionaliteit
 6 - Pairing met meerdere locaties ( data model prepared for this, I think )
 
+Future features
+
+- Low battery detection
+- Check when heating mode is changing ( e.g. following  schedule , permament, etc)
+- Time limits on quick Actions
+- Time limits on temperature heatSetpoint
+
+
 KNOWN BUGS
 
+- Reset temperature does set the 'follow schedule', but target_temperature stays 'old number' until a change in schedule is accomplished <- needs validation if this impacts or use URL from old/lib/evohomey
 - If token expired, sometimes a read of zones and quickactions will not result in an update and even an error in the console. Doesn't crash app, all next actions (e.g.next update (after 5 minutes)) is OK.
-- Pairing code needs its own login function . 1-on-1 Copied from evohomey.js function
+- Driver code needs its own login function . 1-on-1 Copied from evohomey.js function
 
 == OLD code in 'old/' directory ==
 
