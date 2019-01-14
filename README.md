@@ -14,7 +14,8 @@ Working
 
 In progress
 
-- Process retrieved zone data
+- Process retrieved zone data (dit moet in device.js, maar hoe voorkom je dat hij voor elk device opnieuw de URL aanroept, want dan ga je tegen accountlimits aanlopen)
+  - mogelijke oplossing; in app.js de boel uitlezen, die in settings opslaan per ID, en dat dan elke 5 minuten weer uitleen in device.js ; zie ook https://github.com/athombv/nl.thermosmart/blob/abe2f2f8a94c22350bf32d2e23d3b30bc494e050/drivers/thermostat/device.js
 - retrieving old account Settings (settings/index.html) ( for migration from v1 app )
 
 Next up
