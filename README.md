@@ -150,6 +150,8 @@ Yes ;-)
 
 ### Changelog
 
+- V2.0.1 2018-01-16 : Bugfix when not having any devices
+- V2.0.0 2018-01-15 : SDK2 enabled
 - V1.0.6 2018-02-15 : Add supported devices in README
 - V1.0.5 2017-11-21 : Evohome tag of temperature bugfix (number instead of string)
 - V1.0.4 2017-09-05 : Ignore hot water devices in thermostat driver

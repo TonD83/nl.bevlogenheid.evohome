@@ -78,6 +78,8 @@ reset_temperature
 //
 
  console.log('-----')
+//    var userid = Homey.ManagerSettings.get('evohomeaccount');
+//    console.log(userid);
  regular_update(); // kick-off during start-up
 setInterval(regular_update,5 * 60 * 1000);
 function regular_update() {

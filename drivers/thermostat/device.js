@@ -100,6 +100,8 @@ class ThermostatDevice extends Homey.Device {
       var zone_data = Homey.ManagerSettings.get('zones_read');
       const { id } = this.getData();
       let device = this;
+      console.log( 'number of devices: ' , zone_data.length)
+      if ( zone_data.length > 0 ) {
       zone_data.forEach(function(value){
         if ( value.zoneId == id) {
             device.log('-- device interval checking for changes --', value.name, value.zoneId, value.temperatureStatus.temperature, value.heatSetpointStatus.targetTemperature );
@@ -120,9 +122,11 @@ class ThermostatDevice extends Homey.Device {
               .then( device.log )
                 }
             var target_old = device.getCapabilityValue('target_temperature')
-            device.setCapabilityValue('target_temperature',value.heatSetpointStatus.targetTemperature)    
+            device.setCapabilityValue('target_temperature',value.heatSetpointStatus.targetTemperature)
+            // hier nog een trigger bouwen voor target temp change card (new)
         }
       });
+     }
     }
 }
 
