@@ -31,12 +31,13 @@ class ThermostatDevice extends Homey.Device {
   	    this._syncInterval = setInterval(this._sync, POLL_INTERVAL);
         // register a capability listener
         this.registerCapabilityListener('target_temperature', async (value) => {
-        this.log('target temperature set requested')
+            this.log('target temperature set requested')
             var target_old = this.getCapabilityValue('target_temperature')
             this.log('old:', target_old)
             this.log('new:', value)
             if (target_old != value) {
               this.log('start target setting', id, value)
+              device.setCapabilityValue('target_temperature', 12)
               // execute target setting
               // /WebAPI/api/devices/' + deviceID + '/thermostat/changeableValues/heatSetpoint
                 var evohomeUser = Homey.ManagerSettings.get('username');
@@ -62,9 +63,15 @@ class ThermostatDevice extends Homey.Device {
                       'TimeUntil': ''
                     }
                   }
-                  console.log(options)
+                  //console.log(options)
                   http.put(options).then(function (result) {
-                    //this.setCapabilityValue('target_temperature', value)
+                    //console.log ('http ', value)
+                    //device.setCapabilityValue('target_temperature', parseInt(value),1)
+                    // we need to write the new target_temperature into the zone_data file, so it contains the new value (or otherwise _sync will override it)
+                    var zone_data = Homey.ManagerSettings.get('zones_read');
+                    // rewrite the target_temperature into zone_data and save
+                    zone_data.forEach(function(item, i) { if (item.zoneId == id) zone_data[i].heatSetpointStatus.targetTemperature = value; });
+                    Homey.ManagerSettings.set('zones_read',zone_data)
                     //console.log(result)
                     return Promise.resolve();
                   })
@@ -100,11 +107,11 @@ class ThermostatDevice extends Homey.Device {
       var zone_data = Homey.ManagerSettings.get('zones_read');
       const { id } = this.getData();
       let device = this;
-      console.log( 'number of devices: ' , zone_data.length)
+      //console.log( 'number of devices: ' , zone_data.length)
       if ( zone_data.length > 0 ) {
       zone_data.forEach(function(value){
         if ( value.zoneId == id) {
-            device.log('-- device interval checking for changes --', value.name, value.zoneId, value.temperatureStatus.temperature, value.heatSetpointStatus.targetTemperature );
+            //device.log('-- device interval checking for changes --', value.name, value.zoneId, value.temperatureStatus.temperature, value.heatSetpointStatus.targetTemperature );
             // process zone information
             var measure_old = device.getCapabilityValue('measure_temperature')
             if ( measure_old != value.temperatureStatus.temperature) {

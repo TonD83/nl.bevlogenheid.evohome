@@ -3,7 +3,7 @@
     "name": {
         "en": "Honeywell Evohome"
     },
-    "version": "2.0.1",
+    "version": "2.0.2",
     "compatibility": ">=1.5.0",
     "sdk": 2,
     "description" : {
@@ -14,6 +14,14 @@
         "name": "Ralf van Dooren",
         "email": "ralfvd@gmail.com"
     },
+    "contributing": {
+        "donate": {
+            "paypal": {
+                "username": "my_paypal.ralfvd"
+            }
+        }
+    },
+    "homeyCommunityTopicId": 6887,
     "images": {
       "large": "./assets/images/large.png",
       "small": "./assets/images/small.png"

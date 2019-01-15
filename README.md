@@ -1,52 +1,6 @@
-### SDK 2 Notes ###
+### IMPORTANT NOTICE ###
 
-Working
-
-- starting app, initializing driver with stored Thermostats
-- storing and retrieving credentials in Homey
-- OATH token and expiry ophalen (being stored in ManagerSettings)
-- Retrieve QA status, trigger card
-- Submit QA status (predefined) to Evohome system.
-- 5 minute interval
-- Pairing (based on new ID, so migration but most probably re-pairing is needed)
-    - Pairing is currently based on 1 location only.
-- Retrieve zone data ( temperature + set temperature)
-- set individual temperature zones + reset ( possible bug in reset )
-- Processing zone data for measure_temperature
-
-
-In progress
-
-- TODO process target_temperature data (same as measure_temperature, wellicht nieuwe trigger card toevoegen)
-- Process retrieved zone data (dit moet in device.js, maar hoe voorkom je dat hij voor elk device opnieuw de URL aanroept, want dan ga je tegen accountlimits aanlopen)
-  - mogelijke oplossing; in app.js de boel uitlezen, die in settings opslaan per ID, en dat dan elke 5 minuten weer uitlezen in device.js ; zie ook https://github.com/athombv/nl.thermosmart/blob/abe2f2f8a94c22350bf32d2e23d3b30bc494e050/drivers/thermostat/device.js
-- retrieving old account Settings (settings/index.html) ( for migration from v1 app )
-
-Next up
-3 - DONE Zones uitlezen
-5 - IN PROGRESS Pairing van thermostaten --> push naar BETA want identieke functionaliteit
-6 - Pairing met meerdere locaties ( data model prepared for this, I think )
-
-Future features
-
-- Low battery detection
-- Check when heating mode is changing ( e.g. following  schedule , permament, etc)
-- Time limits on quick Actions
-- Time limits on temperature heatSetpoint
-- DHW (hot water device)
-
-
-KNOWN BUGS
-
-- Reset temperature does set the 'follow schedule', but target_temperature stays 'old number' until a change in schedule is accomplished <- needs validation if this impacts or use URL from old/lib/evohomey
-- If token expired, sometimes a read of zones and quickactions will not result in an update and even an error in the console. Doesn't crash app, all next actions (e.g.next update (after 5 minutes)) is OK.
-- Driver code needs its own login function . 1-on-1 Copied from evohomey.js function
-
-== OLD code in 'old/' directory ==
-
-Working non-Homey Code: https://github.com/gordonb3/evohomeclient && https://github.com/watchforstock/evohome-client/tree/master/evohomeclient2
-
-### END SDK 2 Notes ###
+If you are upgrading from version 1, you will need to re-enter your username and password in the app settings. Otherwise the app will not work. Also you might need to restart the app once after saving your username/password.
 
 ### Honeywell Evohome
 
@@ -105,10 +59,6 @@ No conditions defined at this moment
 
 All actions are currently on 'permanent' mode. In the future there might be timers (e.g. set Economy for two hours). If you need that now, using the Homey built in-timers or the CountDown app to trigger a timed event.
 
-### Speech
-
-No speech support at this moment
-
 ### Acknowledgement
 
 Initial scripting (based on HC2) provided by Webster
@@ -124,13 +74,16 @@ If you like the app, consider a donation to support development
 
 Only 1 Evohome system is supported.
 
-### ToDo
+### ToDo in order of my priority
 
-- Add hot water device support
 - Add multiple location support
 - Add target temperature triggers
-- Add speech support
+- Low battery detection
+- Add hot water device support
+- Check when heating mode is changing ( e.g. following  schedule , permament, etc)
 - Clean-up code
+- Time limits on quick Actions
+- Time limits on temperature heatSetpoint
 - Add timeout to code if Evohome service doesn't respond
 - Add error checking in code
 - Translation to NL
@@ -139,10 +92,8 @@ Only 1 Evohome system is supported.
 
 In order of priority:
 
-[ Solved 1.0.2 ] : Manual entry of set temperature didn't take any 'tokens' as input
-[ Solved 1.0.0 ] : QuickActions are back
-[ Solved 0.4.9 ] : Logging and showing in cards of target temperature when set in a flow is now working
-[ Solved 0.4.7 ] : Cancel temperature didn't work in some circumstances. Should be OK now.
+- LocationID cannot be retrieved correctly when login isn't completely successfull. In some instances this leads to errors. Workaround: restart app after saving username/Password
+- When access token of Honeywell expires, the first login might give an error when reading status. Unsure if this also affects when updating; statistically changes are higher with the 5 minute interval. That's probably why I only see it during the regular_update.
 
 ### Unknown bugs
 
@@ -150,7 +101,8 @@ Yes ;-)
 
 ### Changelog
 
-- V2.0.1 2018-01-16 : Bugfix when not having any devices
+- V2.0.2 2018-01-16 : Bugfixes, target setting via device card immediately visible in app
+- V2.0.1 2018-01-15 : Bugfix when not having any devices
 - V2.0.0 2018-01-15 : SDK2 enabled
 - V1.0.6 2018-02-15 : Add supported devices in README
 - V1.0.5 2017-11-21 : Evohome tag of temperature bugfix (number instead of string)
