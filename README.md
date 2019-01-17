@@ -77,6 +77,7 @@ Only 1 Evohome system is supported.
 ### ToDo in order of my priority
 
 - Add multiple location support
+- Cancel all adjustments in an intelligent way to limit calls to Honeywell
 - Add target temperature triggers
 - Low battery detection
 - Add hot water device support
@@ -92,6 +93,7 @@ Only 1 Evohome system is supported.
 
 In order of priority:
 
+- Cancel adjustment doesn't work in Homey V2. ZoneId comes back as undefined
 - LocationID cannot be retrieved correctly when login isn't completely successfull. In some instances this leads to errors. Workaround: restart app after saving username/Password
 - When access token of Honeywell expires, the first login might give an error when reading status. Unsure if this also affects when updating; statistically changes are higher with the 5 minute interval. That's probably why I only see it during the regular_update.
 
@@ -101,6 +103,7 @@ Yes ;-)
 
 ### Changelog
 
+- V2.0.3 2018-01-17 : Bugfix for V2.0.1 ; not handling all cases, rewrite login procedure
 - V2.0.2 2018-01-16 : Bugfixes, target setting via device card immediately visible in app
 - V2.0.1 2018-01-15 : Bugfix when not having any devices
 - V2.0.0 2018-01-15 : SDK2 enabled
