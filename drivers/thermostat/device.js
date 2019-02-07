@@ -70,7 +70,10 @@ class ThermostatDevice extends Homey.Device {
                     // we need to write the new target_temperature into the zone_data file, so it contains the new value (or otherwise _sync will override it)
                     var zone_data = Homey.ManagerSettings.get('zones_read');
                     // rewrite the target_temperature into zone_data and save
-                    zone_data.forEach(function(item, i) { if (item.zoneId == id) zone_data[i].heatSetpointStatus.targetTemperature = value; });
+                    console.log('+device.js+');
+                    console.log(zone_data);
+                    console.log('-device.js-');
+                    zone_data.forEach(function(item, i) { if (item.zoneId == id) zone_data[i].setpointStatus.targetHeatTemperature = value; });
                     Homey.ManagerSettings.set('zones_read',zone_data)
                     //console.log(result)
                     return Promise.resolve();
@@ -131,7 +134,7 @@ class ThermostatDevice extends Homey.Device {
               .then( device.log )
                 }
             var target_old = device.getCapabilityValue('target_temperature')
-            device.setCapabilityValue('target_temperature',value.heatSetpointStatus.targetTemperature)
+            device.setCapabilityValue('target_temperature',value.setpointStatus.targetHeatTemperature)
             // hier nog een trigger bouwen voor target temp change card (new)
         }
       });
