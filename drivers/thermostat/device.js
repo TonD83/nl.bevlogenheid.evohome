@@ -29,7 +29,9 @@ class ThermostatDevice extends Homey.Device {
 
        this._sync = this._sync.bind(this);
   	    this._syncInterval = setInterval(this._sync, POLL_INTERVAL);
-        // register a capability listener
+
+
+        // Action: target_temperature
         this.registerCapabilityListener('target_temperature', async (value) => {
             this.log('target temperature set requested')
             var target_old = this.getCapabilityValue('target_temperature')
@@ -37,7 +39,7 @@ class ThermostatDevice extends Homey.Device {
             this.log('new:', value)
             if (target_old != value) {
               this.log('start target setting', id, value)
-              device.setCapabilityValue('target_temperature', 12)
+              device.setCapabilityValue('target_temperature', value)
               // execute target setting
               // /WebAPI/api/devices/' + deviceID + '/thermostat/changeableValues/heatSetpoint
                 var evohomeUser = Homey.ManagerSettings.get('username');
