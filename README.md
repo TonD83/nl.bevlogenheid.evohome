@@ -72,7 +72,7 @@ If you like the app, consider a donation to support development
 
 ### Limitations
 
-Only 1 Evohome system is supported.
+Only 1 Evohome system is supported. If you have multiple Evohome systems, send me a message, so I can hook you up with a specific second location app.  
 
 ### ToDo in order of my priority
 
@@ -103,6 +103,7 @@ Yes ;-)
 
 ### Changelog
 
+- V2.0.5 2018-02-07 : Bugfix for zone_data crash
 - V2.0.3 2018-01-17 : Bugfix for V2.0.1 ; not handling all cases, rewrite login procedure
 - V2.0.2 2018-01-16 : Bugfixes, target setting via device card immediately visible in app
 - V2.0.1 2018-01-15 : Bugfix when not having any devices

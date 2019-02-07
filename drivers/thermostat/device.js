@@ -107,8 +107,10 @@ class ThermostatDevice extends Homey.Device {
       var zone_data = Homey.ManagerSettings.get('zones_read');
       const { id } = this.getData();
       let device = this;
-      //console.log( 'number of devices: ' , zone_data.length)
-      if ( zone_data.length != 'None' ) {
+      //console.log(zone_data)
+      console.log( 'number of devices: ' , zone_data.length)
+      if ( zone_data != 'None' ) {
+      console.log (zone_data);
       zone_data.forEach(function(value){
         if ( value.zoneId == id) {
             //device.log('-- device interval checking for changes --', value.name, value.zoneId, value.temperatureStatus.temperature, value.heatSetpointStatus.targetTemperature );
