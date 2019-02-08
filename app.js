@@ -57,8 +57,9 @@ set_temperature_manual
     .register()
     .registerRunListener(( args, state ) => {
         this.log('temperature manual entry')
-        this.log(args.device._id)
-        let temp_set = evohomey.temperature_set(args.device._id,args['temp_manual'],1)
+        var id = args.device.getID();
+        this.log(id);
+        let temp_set = evohomey.temperature_set(id,args['temp_manual'],1)
         return Promise.resolve( 'temp_set' );
     })
 
@@ -69,8 +70,9 @@ reset_temperature
     .register()
     .registerRunListener(( args, state ) => {
         this.log('temperature reset')
-        this.log(args.device._id)
-        let temp_reset = evohomey.temperature_set(args.device._id,'',0)
+        var id = args.device.getID();
+        this.log(id);
+        let temp_reset = evohomey.temperature_set(id,'',0)
         return Promise.resolve( 'temp_reset' );
     })
  //// MAIN

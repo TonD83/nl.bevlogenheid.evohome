@@ -103,6 +103,7 @@ Yes ;-)
 
 ### Changelog
 
+- V2.1.0 2018-02-08 : New authentication code, fixed set manual and reset temp procedures, various bugfixes
 - V2.0.5 2018-02-07 : Bugfix for zone_data crash
 - V2.0.3 2018-01-17 : Bugfix for V2.0.1 ; not handling all cases, rewrite login procedure
 - V2.0.2 2018-01-16 : Bugfixes, target setting via device card immediately visible in app
