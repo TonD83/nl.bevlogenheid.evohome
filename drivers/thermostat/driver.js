@@ -6,6 +6,61 @@ var http = require('http.min')
 
 class ThermostatDriver extends Homey.Driver {
 
+
+  onPair( socket ) {
+
+    socket.on('login', ( data, callback ) => {
+            var email = data.username;
+            var password = data.password;
+            Homey.ManagerSettings.set('username',email);
+            Homey.ManagerSettings.set('password',password);
+            var appid="91db1612-73fd-4500-91b2-e63b069b185c";
+            evohomelogin(email,password,appid).then(valid => {
+              console.log('pair login: valid');
+              Homey.ManagerSettings.set('username',email);
+              Homey.ManagerSettings.set('password',password);
+              callback( null, valid );
+            })
+            .catch(function() {
+              console.log('pair login: invalid');
+              Homey.ManagerSettings.set('username','')
+              Homey.ManagerSettings.set('password','')
+              callback (callback);
+            });
+        });
+
+    socket.on('showView', (viewId, callback) => {
+      callback();
+      this.log('onpair: ', viewId);
+      if( viewId === 'start' ) {
+        var evohomeUser = Homey.ManagerSettings.get('username');
+        var evohomePassword= Homey.ManagerSettings.get('password');
+        if ( !evohomeUser || !evohomePassword ) {
+            return socket.showView('login')
+        }
+        else {
+          this.log('on pair: username set');
+          return socket.showView('list_thermostats');
+        }
+      }
+      if (viewId === 'list_thermostats') {
+          var devices = []
+          this.onPairListDevices(devices)
+          .then(devices => {
+                    console.log('on pair list devices complete');
+                    socket.emit ('list_devices', devices);
+                    console.log(devices);
+                    callback( null, devices );
+                    return socket.showView('add_thermostats')
+                }).catch(err => {
+                    console.log('on pair list devices error');
+                    callback( err.message || err.toString() );
+                });
+
+        };
+  });
+}
+
   onPairListDevices( data, callback ) {
     var devices = []
     // is dit nog nodig ??
@@ -46,7 +101,7 @@ class ThermostatDriver extends Homey.Driver {
             devices.push(foundDevice);
           })
           resolve(devices);
-          callback( null, devices );
+          //callback( null, devices );
         })
 
 

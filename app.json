@@ -3,7 +3,7 @@
     "name": {
         "en": "Honeywell Evohome"
     },
-    "version": "2.1.0",
+    "version": "2.1.1",
     "compatibility": ">=1.5.0",
     "sdk": 2,
     "description" : {
@@ -42,6 +42,14 @@
           "small": "drivers/thermostat/assets/images/small.jpg"
         },
         "pair": [
+          {
+            "id": "start",
+            "template": "loading"
+          },
+          {
+            "id": "login",
+            "template": "login_credentials"
+          },
           {
             "id": "list_thermostats",
             "template": "list_devices",
