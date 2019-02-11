@@ -102,6 +102,7 @@ Yes ;-)
 
 ### Changelog
 
+- V2.1.2 2018-02-11 : New action card: cancel all manual adjustments. All zones will follow schedule again. 
 - V2.1.1 2018-02-08 : Pairing includes authentication check. BUG: All devices are added, you cannot choose anymore.
 - V2.1.0 2018-02-08 : New authentication code, fixed set manual and reset temp procedures, various bugfixes
 - V2.0.5 2018-02-07 : Bugfix for zone_data crash

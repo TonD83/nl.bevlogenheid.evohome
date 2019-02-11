@@ -3,7 +3,7 @@
     "name": {
         "en": "Honeywell Evohome"
     },
-    "version": "2.1.1",
+    "version": "2.1.2",
     "compatibility": ">=1.5.0",
     "sdk": 2,
     "description" : {
@@ -211,7 +211,15 @@
              "filter": "driver_id=thermostat"
              }
          ]
+         },
+         {
+           "id": "reset_all_zones",
+           "title": {
+             "en": "Cancel adjustments in all zones",
+             "nl": "Annuleer aanpassing in alle zones"
+           }
          }
+
     ]
   }
 }

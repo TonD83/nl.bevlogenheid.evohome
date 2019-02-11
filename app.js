@@ -75,6 +75,36 @@ reset_temperature
         let temp_reset = evohomey.temperature_set(id,'',0)
         return Promise.resolve( 'temp_reset' );
     })
+
+    // reset_all_zones (device)
+
+    let reset_all_zones = new Homey.FlowCardAction('reset_all_zones');
+    reset_all_zones
+        .register()
+        .registerRunListener(( args, state ) => {
+            this.log('reset all zones');
+            // first we need a list of all IDs
+            var zonePromise = evohomey.zones_read();
+            zonePromise.then(function(result) {
+              var data = result;
+              console.log('test')
+              data.forEach(function(value){
+                console.log('+++reset all temp: +++')
+                //console.log(value)
+                //console.log('--')
+                //console.log(value.zoneId);
+                //console.log(value.setpointStatus.setpointMode)
+                if (value.setpointStatus.setpointMode != 'FollowSchedule') {
+                  console.log(' cancel needed for: ', value.zoneId);
+                  let temp_reset = evohomey.temperature_set(value.zoneId,'',0)
+                }
+              })
+              return Promise.resolve( 'ok' );
+            })
+            .catch('catch reset_all_zones');
+            return Promise.resolve( 'ok' );
+        })
+
  //// MAIN
 
  console.log('-----')
