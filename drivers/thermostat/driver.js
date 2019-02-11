@@ -36,11 +36,11 @@ class ThermostatDriver extends Homey.Driver {
         var evohomeUser = Homey.ManagerSettings.get('username');
         var evohomePassword= Homey.ManagerSettings.get('password');
         if ( !evohomeUser || !evohomePassword ) {
-            socket.showView('login')
+            return socket.showView('login')
         }
         else {
           this.log('on pair: username set');
-          socket.showView('list_thermostats');
+          return socket.showView('list_thermostats');
           // na deze komt er een 'boolean foutmelding op het scherm'
         }
       }
@@ -50,10 +50,10 @@ class ThermostatDriver extends Homey.Driver {
           this.onPairListDevices(devices)
           .then(devices => {
                     console.log('on pair list devices complete');
-                    //socket.emit ('list_devices', devices);
+                    socket.emit ('list_devices', devices);
                     console.log(devices);
                     callback( null, devices );
-                    //socket.showView('add_thermostats')
+                    return socket.showView('add_thermostats')
                 }).catch(err => {
                     console.log('on pair list devices error');
                     callback( err.message || err.toString() );

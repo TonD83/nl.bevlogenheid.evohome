@@ -181,16 +181,20 @@ class ThermostatDevice extends Homey.Device {
 
     // this method is called when the Device is deleted
     onDeleted() {
-        this.log('device deleted');
+      let id = this.getData().id;
+      this.log('device deleted: ', id);
+      clearInterval(this._sync.pollingInterval);
     }
 
     // capabilities checking
     _sync() {
       var zone_data = Homey.ManagerSettings.get('zones_read');
+      //console.log('device.js _sync');
       const { id } = this.getData();
+      //console.log('getData: ', id);
       let device = this;
       //console.log(zone_data)
-      console.log( 'number of devices: ' , zone_data.length)
+      //console.log( 'number of devices in stored zone data: ' , zone_data.length)
       if ( zone_data != 'None' ) {
       //console.log (zone_data);
       zone_data.forEach(function(value){

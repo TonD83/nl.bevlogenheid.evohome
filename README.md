@@ -47,6 +47,8 @@ No conditions defined at this moment
 
 - Reset temperature: Cancel individual device setting
 
+- Cancel all adjustments: Cancel all individual thermostat settings
+
 - Execute QuickAction ; these are the generic settings of your Evohome. You can choose between:
     - Auto: this is the normal mode, Evohome will follow the set program
     - Economy: this is the economy mode, normally 3 degrees lower than Auto
@@ -93,6 +95,7 @@ Only 1 Evohome system is supported. If you have multiple Evohome systems, send m
 
 In order of priority:
 
+- Cannot select devices to add, all devices will be added automatically. 
 - LocationID cannot be retrieved correctly when login isn't completely successfull. In some instances this leads to errors. Workaround: restart app after saving username/Password
 - When access token of Honeywell expires, the first login might give an error when reading status. Unsure if this also affects when updating; statistically changes are higher with the 5 minute interval. That's probably why I only see it during the regular_update.
 
@@ -102,7 +105,8 @@ Yes ;-)
 
 ### Changelog
 
-- V2.1.2 2018-02-11 : New action card: cancel all manual adjustments. All zones will follow schedule again. 
+- V2.1.3 2018-02-12 : Fixed deleting device promise errors
+- V2.1.2 2018-02-11 : New action card: cancel all manual adjustments. All zones will follow schedule again.
 - V2.1.1 2018-02-08 : Pairing includes authentication check. BUG: All devices are added, you cannot choose anymore.
 - V2.1.0 2018-02-08 : New authentication code, fixed set manual and reset temp procedures, various bugfixes
 - V2.0.5 2018-02-07 : Bugfix for zone_data crash
