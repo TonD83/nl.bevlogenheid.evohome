@@ -31,7 +31,7 @@ class ThermostatDriver extends Homey.Driver {
 
     socket.on('showView', (viewId, callback) => {
       callback();
-      this.log('onpair: ', viewId);
+      this.log('on pair: ', viewId);
       if( viewId === 'start' ) {
         var evohomeUser = Homey.ManagerSettings.get('username');
         var evohomePassword= Homey.ManagerSettings.get('password');
@@ -40,28 +40,22 @@ class ThermostatDriver extends Homey.Driver {
         }
         else {
           this.log('on pair: username set');
-          return socket.showView('list_thermostats');
-          // na deze komt er een 'boolean foutmelding op het scherm'
+          return socket.showView('list_devices');
         }
       }
-      if (viewId === 'list_thermostats') {
-          // of hier ; niet hier,
-          var devices = []
-          this.onPairListDevices(devices)
-          .then(devices => {
-                    console.log('on pair list devices complete');
-                    socket.emit ('list_devices', devices);
-                    console.log(devices);
-                    callback( null, devices );
-                    return socket.showView('add_thermostats')
-                }).catch(err => {
-                    console.log('on pair list devices error');
-                    callback( err.message || err.toString() );
-                });
+    })
 
-        };
-  });
-}
+    socket.on('list_devices', ( data, callback ) => {
+        var devices = []
+        this.onPairListDevices(devices)
+          .then(devices => {
+                  callback( null, devices );
+              }).catch(err => {
+                  callback( err.message || err.toString() );
+              });
+      });
+
+  }
 
   onPairListDevices( data, callback ) {
     var devices = []

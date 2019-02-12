@@ -51,14 +51,14 @@
             "template": "login_credentials"
           },
           {
-            "id": "list_thermostats",
+            "id": "list_devices",
             "template": "list_devices",
             "navigation": {
-              "next": "add_thermostats"
+              "next": "add_devices"
             }
           },
           {
-            "id": "add_thermostats",
+            "id": "add_devices",
             "template": "add_devices"
           }
         ]

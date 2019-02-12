@@ -189,9 +189,8 @@ class ThermostatDevice extends Homey.Device {
     // capabilities checking
     _sync() {
       var zone_data = Homey.ManagerSettings.get('zones_read');
-      //console.log('device.js _sync');
       const { id } = this.getData();
-      //console.log('getData: ', id);
+      console.log('device.js _sync: ', id);
       let device = this;
       //console.log(zone_data)
       //console.log( 'number of devices in stored zone data: ' , zone_data.length)
