@@ -24,10 +24,8 @@ class ThermostatDevice extends Homey.Device {
         var measure_old = this.getCapabilityValue('measure_temperature')
         //this.log('measure_temperature:', measure_old)
 
-      //regular_update(this,id); // kick-off during start-up
-       //setInterval(regular_update,POLL_INTERVAL);
-
-       this._sync = this._sync.bind(this);
+        // device will check every POLL_INTERVAL if there have been changes in its state
+        this._sync = this._sync.bind(this);
   	    this._syncInterval = setInterval(this._sync, POLL_INTERVAL);
 
 
@@ -183,15 +181,16 @@ class ThermostatDevice extends Homey.Device {
     onDeleted() {
       let id = this.getData().id;
       this.log('device deleted: ', id);
-      clearInterval(this._sync.pollingInterval);
+      //clearInterval(this._sync.pollingInterval);
+      clearInterval(this._syncInterval);
     }
 
     // capabilities checking
     _sync() {
-      var zone_data = Homey.ManagerSettings.get('zones_read');
       const { id } = this.getData();
-      console.log('device.js _sync: ', id);
+      //console.log('device.js _sync: ', id);
       let device = this;
+      var zone_data = Homey.ManagerSettings.get('zones_read');
       //console.log(zone_data)
       //console.log( 'number of devices in stored zone data: ' , zone_data.length)
       if ( zone_data != 'None' ) {

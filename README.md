@@ -95,7 +95,6 @@ Only 1 Evohome system is supported. If you have multiple Evohome systems, send m
 
 In order of priority:
 
-- Device deletion will trigger warnings in the logging. No impact on functionality, but should be solved. After a restart of the app, warnings are gone.
 - When access token of Honeywell expires, the first login might give an error when reading status. Unsure if this also affects when updating; statistically changes are higher with the 5 minute interval. That's probably why I only see it during the regular_update.
 
 ### Unknown bugs
@@ -104,7 +103,7 @@ Yes ;-)
 
 ### Changelog
 
-- V2.1.3 2018-02-12 : Fixed adding devices bug; party fixed deleted devices bug.
+- V2.1.3 2018-02-12 : Fixed adding devices bug; Fixed deleted devices warnings in log
 - V2.1.2 2018-02-11 : New action card: cancel all manual adjustments. All zones will follow schedule again.
 - V2.1.1 2018-02-08 : Pairing includes authentication check. BUG: All devices are added, you cannot choose anymore.
 - V2.1.0 2018-02-08 : New authentication code, fixed set manual and reset temp procedures, various bugfixes
