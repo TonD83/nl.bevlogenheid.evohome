@@ -3,6 +3,7 @@ const Homey = require('homey');
 var jsonPath = require('jsonpath-plus')
 var http = require('http.min')
 var evohomey = require('./lib/evohomey.js')
+//var moment = require('./lib/moments.js');
 
 class Evohome extends Homey.App {
 
@@ -62,6 +63,26 @@ set_temperature_manual
         let temp_set = evohomey.temperature_set(id,args['temp_manual'],1)
         return Promise.resolve( 'temp_set' );
     })
+
+// set_temperature_temporary (device)
+
+  let set_temperature_temporary = new Homey.FlowCardAction('set_temperature_temporary');
+    set_temperature_temporary
+        .register()
+        .registerRunListener(( args, state ) => {
+            this.log('temperature temporary manual entry')
+            var id = args.device.getID();
+            this.log(id);
+            const tmpTime = new Date();
+            this.log(tmpTime);
+            tmpTime.setHours(tmpTime.getHours() + args['temp_hours']);
+            tmpTime.setSeconds(0,0);
+            this.log(args['temp_hours']);
+            this.log(tmpTime.toISOString().replace(/\.\d+Z/,'Z'));
+            var setcode = "TemporaryOverride";
+            let temp_set = evohomey.temperature_set(id,args['temp_manual'],setcode,tmpTime.toISOString().replace(/\.\d+Z/,'Z'))
+            return Promise.resolve( 'temp_temorary_set' );
+        })
 
 // reset_temperature (device)
 

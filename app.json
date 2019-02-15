@@ -3,7 +3,7 @@
     "name": {
         "en": "Honeywell Evohome"
     },
-    "version": "2.1.4",
+    "version": "2.1.5",
     "compatibility": ">=1.5.0",
     "sdk": 2,
     "description" : {
@@ -157,6 +157,12 @@
                       "en": "Day off",
                       "nl": "Dag vrij"
                     }
+                },
+                { "id": "AutoWithReset",
+                  "label": {
+                      "en": "Auto with reset",
+                      "nl": "Auto with reset"
+                    }
                 }
                 ]
               }
@@ -190,6 +196,45 @@
                   "max": 30,
                   "step": 0.5
                 }
+             },
+             {
+               "name": "device",
+               "type": "device",
+               "filter": "driver_id=thermostat"
+             }
+           ]
+         },
+         {
+           "id": "set_temperature_temporary",
+           "title": {
+             "en": "Set temporary temperature",
+             "nl": "Stel temperatuur tijdelijk in"
+           },
+           "args": [
+             {
+               "name": "temp_manual",
+               "title": {
+                 "en": "Set to this temperature",
+                 "nl": "Deze temperatuur"
+               },
+               "type": "range",
+               "min": 5,
+               "max": 30,
+               "step": 0.5,
+               "label": "°C",
+               "labelDecimals": 1
+             },
+             {
+               "name": "temp_hours",
+               "title": {
+                 "en": "For how many hours",
+                 "nl": "Voor dit aantal uren"
+               },
+               "type": "range",
+               "min": 0,
+               "max": 24,
+               "step": 1,
+               "label": " hours"
              },
              {
                "name": "device",

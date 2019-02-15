@@ -103,6 +103,7 @@ Yes ;-)
 
 ### Changelog
 
+- V2.1.5 2018-02-15 : New quickaction: Auto with Reset (forces all zones to follow schedule), new card: temporary zone temperature 
 - V2.1.3 2018-02-12 : Fixed adding devices bug; Fixed deleted devices warnings in log
 - V2.1.2 2018-02-11 : New action card: cancel all manual adjustments. All zones will follow schedule again.
 - V2.1.1 2018-02-08 : Pairing includes authentication check. BUG: All devices are added, you cannot choose anymore.
