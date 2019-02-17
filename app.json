@@ -3,7 +3,7 @@
     "name": {
         "en": "Honeywell Evohome"
     },
-    "version": "2.1.5",
+    "version": "2.1.6",
     "compatibility": ">=1.5.0",
     "sdk": 2,
     "description" : {
@@ -169,10 +169,78 @@
             ]
          },
          {
+         "id": "set_temporary_quickaction",
+         "title": {
+            "en": "Set Temporary QuickAction",
+             "nl": "Tijdelijke SnelleActie"
+           },
+          "args":
+          [
+            {
+              "name": "qa",
+              "title": {
+                "en": "Which QuickAction",
+                "nl": "Welke SnelleActie"
+              },
+              "type": "dropdown",
+              "values": [
+                { "id": "Auto",
+                  "label": {
+                      "en": "Auto",
+                      "nl": "Automatisch"
+                    }
+                },
+                { "id": "HeatingOff",
+                  "label": {
+                      "en": "Heating off",
+                      "nl": "Verwarming uit"
+                    }
+                },
+                { "id": "AutoWithEco",
+                  "label": {
+                      "en": "Economy mode",
+                      "nl": "Zuinige modus"
+                    }
+                },
+                { "id": "Away",
+                  "label": {
+                      "en": "Away",
+                      "nl": "Afwezig"
+                    }
+                },
+                { "id": "Custom",
+                  "label": {
+                      "en": "Custom setting",
+                      "nl": "Speciaal programma"
+                    }
+                },
+                { "id": "DayOff",
+                  "label": {
+                      "en": "Day off",
+                      "nl": "Dag vrij"
+                    }
+                }
+                ]
+              },
+              {
+                "name": "temp_hours",
+                "title": {
+                  "en": "For how many hours",
+                  "nl": "Voor dit aantal uren"
+                },
+                "type": "range",
+                "min": 0,
+                "max": 168,
+                "step": 1,
+                "label": " hours"
+              }
+            ]
+         },
+         {
            "id": "set_quickaction_manual_entry",
            "title": {
-             "en": "set QuickAction manual entry",
-             "nl": "activeer SnelleActie, handmatige invoer"
+             "en": "Set QuickAction manual entry",
+             "nl": "Activeer SnelleActie, handmatige invoer"
            },
            "args": [
              {

@@ -21,11 +21,34 @@ set_quickaction
     .register()
     .registerRunListener(( args, state ) => {
         this.log(args['qa'])
-        let qa_set = evohomey.quickaction_set(args['qa']); // true or false
+        let qa_set = evohomey.quickaction_set(args['qa'],'True','None'); // true or false
         Homey.ManagerSettings.set('quickAction',args['qa']);
         return Promise.resolve( qa_set );
 
     })
+
+// set_quickaction
+
+let set_temporary_quickaction = new Homey.FlowCardAction('set_temporary_quickaction');
+set_temporary_quickaction
+      .register()
+        .registerRunListener(( args, state ) => {
+            this.log(args['qa'])
+            const tmpTime = new Date();
+            tmpTime.setHours(tmpTime.getHours() + args['temp_hours']);
+            tmpTime.setSeconds(0,0);
+            this.log(args['temp_hours']);
+            this.log(tmpTime.toISOString().replace(/\.\d+Z/,'Z'));
+
+            //this.log(args['qa_date']);
+            //this.log(args['qa_time']);
+            //var TimezoneDate = new Date().getTimezoneOffset()
+            //this.log(TimezoneDate);
+            let qa_temp_set = evohomey.quickaction_set(args['qa'],'False',tmpTime.toISOString().replace(/\.\d+Z/,'Z')); // true or false
+            Homey.ManagerSettings.set('quickAction',args['qa']);
+            //return Promise.resolve( qa_temp_set );
+            return Promise.resolve (' TMP ok');
+        })
 
 // set_quickaction_manual_entry
 
@@ -42,7 +65,7 @@ set_quickaction_manual_entry
             case "Away":
             case "Custom":
             case "DayOff":
-              let qa_set = evohomey.quickaction_set(args['qa']); // true or false
+              let qa_set = evohomey.quickaction_set(args['qa'],'True','None'); // true or false
               Homey.ManagerSettings.set('quickAction',args['qa']);
               return Promise.resolve( qa_set );
                 break
@@ -117,7 +140,7 @@ reset_temperature
                 //console.log(value.setpointStatus.setpointMode)
                 if (value.setpointStatus.setpointMode != 'FollowSchedule') {
                   console.log(' cancel needed for: ', value.zoneId);
-                  let temp_reset = evohomey.temperature_set(value.zoneId,'',0)
+                  let temp_reset = evohomey.temperature_set(value.zoneId,'',0,'')
                 }
               })
               return Promise.resolve( 'ok' );
