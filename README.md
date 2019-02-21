@@ -1,3 +1,7 @@
+### IMPORTANT NOTICE ###
+
+If you are upgrading from version 1, you will need to re-enter your username and password in the app settings. Otherwise the app will not work. Also you might need to restart the app once after saving your username/password.
+
 ### Honeywell Evohome
 
 With this app you can manage your Evohome and other systems that connect via Total Connect Comfort from within Homey. It is using the unofficial API of Evohome.
@@ -43,6 +47,8 @@ No conditions defined at this moment
 
 - Reset temperature: Cancel individual device setting
 
+- Cancel all adjustments: Cancel all individual thermostat settings
+
 - Execute QuickAction ; these are the generic settings of your Evohome. You can choose between:
     - Auto: this is the normal mode, Evohome will follow the set program
     - Economy: this is the economy mode, normally 3 degrees lower than Auto
@@ -54,10 +60,6 @@ No conditions defined at this moment
 - Execute QuickAction (manual entry); with this card you can enter the quickaction yourself. This is usefull if you have stored a quickaction value in a variable in Homey, this can be used e.g. to restore a previous setting. e.g. door open, set quickaction for heating off, then when door closes, set quickaction with variable where the previous status was stored (e.g. Auto).
 
 All actions are currently on 'permanent' mode. In the future there might be timers (e.g. set Economy for two hours). If you need that now, using the Homey built in-timers or the CountDown app to trigger a timed event.
-
-### Speech
-
-No speech support at this moment
 
 ### Acknowledgement
 
@@ -72,15 +74,19 @@ If you like the app, consider a donation to support development
 
 ### Limitations
 
-Only 1 Evohome system is supported.
+Only 1 Evohome system is supported. If you have multiple Evohome systems, send me a message, so I can hook you up with a specific second location app.  
 
-### ToDo
+### ToDo in order of my priority (donate to change priority ;-) )
 
-- Add hot water device support
 - Add multiple location support
+- Cancel all adjustments in an intelligent way to limit calls to Honeywell
 - Add target temperature triggers
-- Add speech support
+- Low battery detection
+- Add hot water device support
+- Check when heating mode is changing ( e.g. following  schedule , permament, etc)
 - Clean-up code
+- Time limits on quick Actions
+- Time limits on temperature heatSetpoint
 - Add timeout to code if Evohome service doesn't respond
 - Add error checking in code
 - Translation to NL
@@ -89,10 +95,7 @@ Only 1 Evohome system is supported.
 
 In order of priority:
 
-[ Solved 1.0.2 ] : Manual entry of set temperature didn't take any 'tokens' as input
-[ Solved 1.0.0 ] : QuickActions are back
-[ Solved 0.4.9 ] : Logging and showing in cards of target temperature when set in a flow is now working
-[ Solved 0.4.7 ] : Cancel temperature didn't work in some circumstances. Should be OK now.
+- When access token of Honeywell expires, the first login might give an error when reading status. Unsure if this also affects when updating; statistically changes are higher with the 5 minute interval. That's probably why I only see it during the regular_update.
 
 ### Unknown bugs
 
@@ -100,7 +103,19 @@ Yes ;-)
 
 ### Changelog
 
-- V1.0.6 2018-02-15 : Add supported devices in README
+- V2.1.7 2019-02-21 : Bugfix permanent quickaction (spotted by WillyBits)
+- V2.1.6 2019-02-17 : New action card: QuickAction with temporary override
+- V2.1.5 2019-02-15 : New quickaction: Auto with Reset (forces all zones to follow schedule), new card: temporary zone temperature
+- V2.1.3 2019-02-12 : Fixed adding devices bug; Fixed deleted devices warnings in log
+- V2.1.2 2019-02-11 : New action card: cancel all manual adjustments. All zones will follow schedule again.
+- V2.1.1 2019-02-08 : Pairing includes authentication check. BUG: All devices are added, you cannot choose anymore.
+- V2.1.0 2019-02-08 : New authentication code, fixed set manual and reset temp procedures, various bugfixes
+- V2.0.5 2019-02-07 : Bugfix for zone_data crash
+- V2.0.3 2019-01-17 : Bugfix for V2.0.1 ; not handling all cases, rewrite login procedure
+- V2.0.2 2019-01-16 : Bugfixes, target setting via device card immediately visible in app
+- V2.0.1 2019-01-15 : Bugfix when not having any devices
+- V2.0.0 2019-01-15 : SDK2 enabled
+- V1.0.6 2019-02-15 : Add supported devices in README
 - V1.0.5 2017-11-21 : Evohome tag of temperature bugfix (number instead of string)
 - V1.0.4 2017-09-05 : Ignore hot water devices in thermostat driver
 - V1.0.3 2017-09-04 : Ignore reading of 128 degrees of thermostats (128 = controller received no input from thermostat)

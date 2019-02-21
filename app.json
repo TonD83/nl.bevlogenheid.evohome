@@ -3,8 +3,9 @@
     "name": {
         "en": "Honeywell Evohome"
     },
-    "version": "1.0.6",
-    "compatibility": ">=0.8.30",
+    "version": "2.1.7",
+    "compatibility": ">=1.5.0",
+    "sdk": 2,
     "description" : {
 	     "en" : "Control Honeywell Evohome thermostats",
        "nl" : "Bedien je Honeywell Evohome verwarmingsinstallatie"
@@ -13,6 +14,14 @@
         "name": "Ralf van Dooren",
         "email": "ralfvd@gmail.com"
     },
+    "contributing": {
+        "donate": {
+            "paypal": {
+                "username": "ralfvd"
+            }
+        }
+    },
+    "homeyCommunityTopicId": 6887,
     "images": {
       "large": "./assets/images/large.png",
       "small": "./assets/images/small.png"
@@ -33,17 +42,23 @@
           "small": "drivers/thermostat/assets/images/small.jpg"
         },
         "pair": [
-          { "id": "start"
+          {
+            "id": "start",
+            "template": "loading"
           },
           {
-            "id": "list_thermostats",
+            "id": "login",
+            "template": "login_credentials"
+          },
+          {
+            "id": "list_devices",
             "template": "list_devices",
             "navigation": {
-              "next": "add_thermostats"
+              "next": "add_devices"
             }
           },
           {
-            "id": "add_thermostats",
+            "id": "add_devices",
             "template": "add_devices"
           }
         ]
@@ -142,16 +157,90 @@
                       "en": "Day off",
                       "nl": "Dag vrij"
                     }
+                },
+                { "id": "AutoWithReset",
+                  "label": {
+                      "en": "Auto with reset",
+                      "nl": "Auto with reset"
+                    }
                 }
                 ]
               }
             ]
          },
          {
+         "id": "set_temporary_quickaction",
+         "title": {
+            "en": "Set Temporary QuickAction",
+             "nl": "Tijdelijke SnelleActie"
+           },
+          "args":
+          [
+            {
+              "name": "qa",
+              "title": {
+                "en": "Which QuickAction",
+                "nl": "Welke SnelleActie"
+              },
+              "type": "dropdown",
+              "values": [
+                { "id": "Auto",
+                  "label": {
+                      "en": "Auto",
+                      "nl": "Automatisch"
+                    }
+                },
+                { "id": "HeatingOff",
+                  "label": {
+                      "en": "Heating off",
+                      "nl": "Verwarming uit"
+                    }
+                },
+                { "id": "AutoWithEco",
+                  "label": {
+                      "en": "Economy mode",
+                      "nl": "Zuinige modus"
+                    }
+                },
+                { "id": "Away",
+                  "label": {
+                      "en": "Away",
+                      "nl": "Afwezig"
+                    }
+                },
+                { "id": "Custom",
+                  "label": {
+                      "en": "Custom setting",
+                      "nl": "Speciaal programma"
+                    }
+                },
+                { "id": "DayOff",
+                  "label": {
+                      "en": "Day off",
+                      "nl": "Dag vrij"
+                    }
+                }
+                ]
+              },
+              {
+                "name": "temp_hours",
+                "title": {
+                  "en": "For how many hours",
+                  "nl": "Voor dit aantal uren"
+                },
+                "type": "range",
+                "min": 0,
+                "max": 168,
+                "step": 1,
+                "label": " hours"
+              }
+            ]
+         },
+         {
            "id": "set_quickaction_manual_entry",
            "title": {
-             "en": "set QuickAction manual entry",
-             "nl": "activeer SnelleActie, handmatige invoer"
+             "en": "Set QuickAction manual entry",
+             "nl": "Activeer SnelleActie, handmatige invoer"
            },
            "args": [
              {
@@ -184,6 +273,45 @@
            ]
          },
          {
+           "id": "set_temperature_temporary",
+           "title": {
+             "en": "Set temporary temperature",
+             "nl": "Stel temperatuur tijdelijk in"
+           },
+           "args": [
+             {
+               "name": "temp_manual",
+               "title": {
+                 "en": "Set to this temperature",
+                 "nl": "Deze temperatuur"
+               },
+               "type": "range",
+               "min": 5,
+               "max": 30,
+               "step": 0.5,
+               "label": "°C",
+               "labelDecimals": 1
+             },
+             {
+               "name": "temp_hours",
+               "title": {
+                 "en": "For how many hours",
+                 "nl": "Voor dit aantal uren"
+               },
+               "type": "range",
+               "min": 0,
+               "max": 24,
+               "step": 1,
+               "label": " hours"
+             },
+             {
+               "name": "device",
+               "type": "device",
+               "filter": "driver_id=thermostat"
+             }
+           ]
+         },
+         {
            "id": "reset_temperature",
            "title": {
              "en": "Cancel adjustment",
@@ -196,7 +324,15 @@
              "filter": "driver_id=thermostat"
              }
          ]
+         },
+         {
+           "id": "reset_all_zones",
+           "title": {
+             "en": "Cancel adjustments in all zones",
+             "nl": "Annuleer aanpassing in alle zones"
+           }
          }
+
     ]
   }
 }

@@ -1,107 +1,199 @@
-//var jsonPath = require('jsonpath-plus')
-//var http = require('http.min')
-//var parseString = require('xml2js').parseString
-const Log = require('homey-log').Log;
-var Evohomey = require('./lib/evohomey')
+"use strict";
+const Homey = require('homey');
+var jsonPath = require('jsonpath-plus')
+var http = require('http.min')
+var evohomey = require('./lib/evohomey.js')
+//var moment = require('./lib/moments.js');
 
-function trigger_actions () {
-  Homey.log('trigger_actions')
+class Evohome extends Homey.App {
 
-}
+  onInit() {
+    this.log("Evohome app started");
+    Homey.ManagerSettings.set('account_info','None');
+    Homey.ManagerSettings.set('installation','None');
+    Homey.ManagerSettings.set('zones_read','None');
+    Homey.ManagerSettings.set('access_token_expires',Date()); // make sure new is used at start-up
 
-function flow_actions () {
+// set_quickaction
 
-  Homey.manager('flow').on('action.set_quickaction', function (callback, args) {
-    //Homey.log('QuickAction: ' + args.qa)
-    var settings = Homey.manager('settings').get('evohomeaccount')
-      if (settings) {
-        var evohomesystem = new Evohomey({
-          user: settings.user,
-          password: settings.password,
-          appid: settings.appid
+let set_quickaction = new Homey.FlowCardAction('set_quickaction');
+set_quickaction
+    .register()
+    .registerRunListener(( args, state ) => {
+        this.log(args['qa'])
+        let qa_set = evohomey.quickaction_set(args['qa'],'True',''); // true or false
+        Homey.ManagerSettings.set('quickAction',args['qa']);
+        return Promise.resolve( qa_set );
+
+    })
+
+// set_quickaction
+
+let set_temporary_quickaction = new Homey.FlowCardAction('set_temporary_quickaction');
+set_temporary_quickaction
+      .register()
+        .registerRunListener(( args, state ) => {
+            this.log(args['qa'])
+            const tmpTime = new Date();
+            tmpTime.setHours(tmpTime.getHours() + args['temp_hours']);
+            tmpTime.setSeconds(0,0);
+            this.log(args['temp_hours']);
+            this.log(tmpTime.toISOString().replace(/\.\d+Z/,'Z'));
+
+            //this.log(args['qa_date']);
+            //this.log(args['qa_time']);
+            //var TimezoneDate = new Date().getTimezoneOffset()
+            //this.log(TimezoneDate);
+            let qa_temp_set = evohomey.quickaction_set(args['qa'],'False',tmpTime.toISOString().replace(/\.\d+Z/,'Z')); // true or false
+            Homey.ManagerSettings.set('quickAction',args['qa']);
+            //return Promise.resolve( qa_temp_set );
+            return Promise.resolve (' TMP ok');
         })
-        //Homey.log (settings.password)
-        evohomesystem.quickAction(args.qa)
-        callback( null, true )
-      } else {
-        callback ('invalidSettings')
-      }
-  })
 
-  Homey.manager('flow').on('action.set_quickaction_manual_entry', function (callback, args) {
-    //Homey.log('QuickAction: ' + args.qa)
-    var settings = Homey.manager('settings').get('evohomeaccount')
-      if (settings) {
-        var evohomesystem = new Evohomey({
-          user: settings.user,
-          password: settings.password,
-          appid: settings.appid
-        })
-        //Homey.log (settings.password)
-        Homey.log('[trigger] qa manual entry: ' + args.qa )
-        switch(args.qa) {
+// set_quickaction_manual_entry
+
+let set_quickaction_manual_entry = new Homey.FlowCardAction('set_quickaction_manual_entry');
+set_quickaction_manual_entry
+    .register()
+    .registerRunListener(( args, state ) => {
+        this.log('quickaction manual entry')
+        this.log(args['qa'])
+        switch(args['qa']) {
             case "HeatingOff":
             case "Auto":
             case "AutoWithEco":
             case "Away":
             case "Custom":
             case "DayOff":
-              evohomesystem.quickAction(args.qa)
-              callback (null, true)
-              break
-            default:
-              callback ('invalidSettings')
+              let qa_set = evohomey.quickaction_set(args['qa'],'True',''); // true or false
+              Homey.ManagerSettings.set('quickAction',args['qa']);
+              return Promise.resolve( qa_set );
+                break
+              default:
+                return Promise.reject ('invalidSettings')
+            }
+    })
+
+// set_temperature_manual (device)
+
+let set_temperature_manual = new Homey.FlowCardAction('set_temperature_manual');
+set_temperature_manual
+    .register()
+    .registerRunListener(( args, state ) => {
+        this.log('temperature manual entry')
+        var id = args.device.getID();
+        this.log(id);
+        let temp_set = evohomey.temperature_set(id,args['temp_manual'],1)
+        return Promise.resolve( 'temp_set' );
+    })
+
+// set_temperature_temporary (device)
+
+  let set_temperature_temporary = new Homey.FlowCardAction('set_temperature_temporary');
+    set_temperature_temporary
+        .register()
+        .registerRunListener(( args, state ) => {
+            this.log('temperature temporary manual entry')
+            var id = args.device.getID();
+            this.log(id);
+            const tmpTime = new Date();
+            this.log(tmpTime);
+            tmpTime.setHours(tmpTime.getHours() + args['temp_hours']);
+            tmpTime.setSeconds(0,0);
+            this.log(args['temp_hours']);
+            this.log(tmpTime.toISOString().replace(/\.\d+Z/,'Z'));
+            var setcode = "TemporaryOverride";
+            let temp_set = evohomey.temperature_set(id,args['temp_manual'],setcode,tmpTime.toISOString().replace(/\.\d+Z/,'Z'))
+            return Promise.resolve( 'temp_temorary_set' );
+        })
+
+// reset_temperature (device)
+
+let reset_temperature = new Homey.FlowCardAction('reset_temperature');
+reset_temperature
+    .register()
+    .registerRunListener(( args, state ) => {
+        this.log('temperature reset')
+        var id = args.device.getID();
+        this.log(id);
+        let temp_reset = evohomey.temperature_set(id,'',0)
+        return Promise.resolve( 'temp_reset' );
+    })
+
+    // reset_all_zones (device)
+
+    let reset_all_zones = new Homey.FlowCardAction('reset_all_zones');
+    reset_all_zones
+        .register()
+        .registerRunListener(( args, state ) => {
+            this.log('reset all zones');
+            // first we need a list of all IDs
+            var zonePromise = evohomey.zones_read();
+            zonePromise.then(function(result) {
+              var data = result;
+              console.log('test')
+              data.forEach(function(value){
+                console.log('+++reset all temp: +++')
+                //console.log(value)
+                //console.log('--')
+                //console.log(value.zoneId);
+                //console.log(value.setpointStatus.setpointMode)
+                if (value.setpointStatus.setpointMode != 'FollowSchedule') {
+                  console.log(' cancel needed for: ', value.zoneId);
+                  let temp_reset = evohomey.temperature_set(value.zoneId,'',0,'')
+                }
+              })
+              return Promise.resolve( 'ok' );
+            })
+            .catch('catch reset_all_zones');
+            return Promise.resolve( 'ok' );
+        })
+
+ //// MAIN
+
+ console.log('-----')
+ //console.log(userid);
+ regular_update(); // kick-off during start-up
+ setInterval(regular_update,5 * 60 * 1000);
+ function regular_update() {
+    console.log('5 minute update routine')
+    // 1 - quickaction status uitlezen
+    console.log('quickaction read')
+    var quickactionPromise  = evohomey.quickaction_read();
+    quickactionPromise.then(function(result) {
+      var qa_new = result;
+      console.log('QA retrieved: ', qa_new);
+      var qa_old = Homey.ManagerSettings.get('qa')
+      console.log('QA Stored: ',qa_old);
+      if (qa_old != qa_new) {
+        // Trigger quickaction_changed_externally
+        console.log ('quickaction changed')
+        Homey.ManagerSettings.set('qa',qa_new);
+        let quickaction_changed_externally = new Homey.FlowCardTrigger('quickaction_changed_externally');
+        let tokens = {
+          'qa_name': qa_new
         }
-      } else {
-        callback ('invalidSettings')
+        quickaction_changed_externally
+        .register()
+        .trigger(tokens)
+          .catch('qa changed externally catch')
+          .then(console.log('new qa set'))
       }
-  })
+      // 2 - zone status uitlezen
+      console.log('zone status read')
+      var zonePromise = evohomey.zones_read();
+      zonePromise.then(function(result) {
+        var data = result;
+        console.log('hier gebeurt niets volgens mij');
+        //Homey.ManagerSettings.set('zones_read','test');
+        // hier dingen uitvoeren
+      })
+    });
 
-  Homey.manager('flow').on('action.set_temperature_manual', function (callback, args) {
-    //Homey.log('Argumenten die meekomen: ' + JSON.stringify(args.device))
-    var new_target = Number(Math.round(args.temp_manual * 2) / 2).toFixed(1)
-    Homey.log('device id: ' + args.device.id)
-    Homey.log('New temperature: ' + new_target)
-    var settings = Homey.manager('settings').get('evohomeaccount')
-      if (settings) {
-        var evohomesystem = new Evohomey({
-          user: settings.user,
-          password: settings.password,
-          appid: settings.appid
-        })
-        //Homey.log (settings.password)
-        //evohomesystem.quickAction(args.qa)
-        evohomesystem.setDeviceTemperature(args.device.id,new_target,function(callback) {
-            //module.exports.realtime(device_data,'target_temperature',temp_new)
-            evohomeDebugLog(args.device.id + ': new target temperature set: ' + new_target)
-            //Homey.log('target setting')
-            //Homey.log(device)
-            //Homey.log('----')
-            //Homey.log(thermostats[device_data.id])
-            //Homey.log('target setting')
-            //module.exports.realtime(device.data,'target_temperature',new_target)
-            //thermostats[device_data.id].state.target_temperature = Number(new_target)
-            //Homey.log(thermostats[device_data.id])
-            //Homey.log('END SET TARGET')
-            callback( null, thermostats[args.device.id].state.target_temperature)
-        })
-        callback( null, true )
-      } else {
-        callback ('invalidSettings')
-      }
-  })
+} // 5 minute update
 
+ //// END MAIN
+  } // end oninit
 }
 
-
-
-var self = {
-  init: function() {
-     Homey.log("Evohome app started -- app.js")
-     Log.captureMessage("Evohome app started")
-     flow_actions()
-     trigger_actions()
-  }
-}
-
-module.exports = self;
+module.exports = Evohome;
