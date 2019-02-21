@@ -21,7 +21,7 @@ set_quickaction
     .register()
     .registerRunListener(( args, state ) => {
         this.log(args['qa'])
-        let qa_set = evohomey.quickaction_set(args['qa'],'True','None'); // true or false
+        let qa_set = evohomey.quickaction_set(args['qa'],'True',''); // true or false
         Homey.ManagerSettings.set('quickAction',args['qa']);
         return Promise.resolve( qa_set );
 
@@ -65,7 +65,7 @@ set_quickaction_manual_entry
             case "Away":
             case "Custom":
             case "DayOff":
-              let qa_set = evohomey.quickaction_set(args['qa'],'True','None'); // true or false
+              let qa_set = evohomey.quickaction_set(args['qa'],'True',''); // true or false
               Homey.ManagerSettings.set('quickAction',args['qa']);
               return Promise.resolve( qa_set );
                 break
