@@ -103,6 +103,7 @@ Yes ;-)
 
 ### Changelog
 
+- V2.1.8 2019-02-23 : Display login failures at start-up in timeline
 - V2.1.7 2019-02-21 : Bugfix permanent quickaction (spotted by WillyBits)
 - V2.1.6 2019-02-17 : New action card: QuickAction with temporary override
 - V2.1.5 2019-02-15 : New quickaction: Auto with Reset (forces all zones to follow schedule), new card: temporary zone temperature

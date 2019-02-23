@@ -3,6 +3,7 @@ const Homey = require('homey');
 var jsonPath = require('jsonpath-plus')
 var http = require('http.min')
 var evohomey = require('./lib/evohomey.js')
+var login = require('./lib/login.js')
 //var moment = require('./lib/moments.js');
 
 class Evohome extends Homey.App {
@@ -153,8 +154,33 @@ reset_temperature
 
  console.log('-----')
  //console.log(userid);
- regular_update(); // kick-off during start-up
- setInterval(regular_update,5 * 60 * 1000);
+
+ // first, some checks and logging to timeline is something is not right
+ var evohomeUser = Homey.ManagerSettings.get('username');
+ var evohomePassword= Homey.ManagerSettings.get('password');
+ if ( !evohomeUser || !evohomePassword ) {
+   new Homey.Notification({excerpt:'Evohome: missing username or password; enter your Honeywell credentials in app settings'}) // username + password set?
+       .register();
+
+ } else {
+   // login correct ?
+   var appid="91db1612-73fd-4500-91b2-e63b069b185c";
+   var evohomeloginPromise = login.evohomelogin(evohomeUser,evohomePassword,appid);
+   evohomeloginPromise.then(function(result) {
+     console.log ('app start login check: login successfull')
+    })
+    .catch(function(reject) {
+      console.log('app start: login failed: ', reject);
+      new Homey.Notification({excerpt:'Evohome: invalid username or password; please adjust in app settings and restart app'}) // username + password set?
+          .register();
+    })
+ }
+ // all checks completed
+
+
+ // uncomment after checks complete
+ //regular_update(); // kick-off during start-up
+ //setInterval(regular_update,5 * 60 * 1000);
  function regular_update() {
     console.log('5 minute update routine')
     // 1 - quickaction status uitlezen
