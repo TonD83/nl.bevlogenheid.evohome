@@ -179,8 +179,8 @@ reset_temperature
 
 
  // uncomment after checks complete
- //regular_update(); // kick-off during start-up
- //setInterval(regular_update,5 * 60 * 1000);
+ regular_update(); // kick-off during start-up
+ setInterval(regular_update,5 * 60 * 1000);
  function regular_update() {
     console.log('5 minute update routine')
     // 1 - quickaction status uitlezen
