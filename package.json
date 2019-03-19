@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "http.min": "^1.2.4",
-    "homey-log": "^1.0.5",
     "jsonpath-plus": "^0.14.0"
   },
   "devDependencies": {},

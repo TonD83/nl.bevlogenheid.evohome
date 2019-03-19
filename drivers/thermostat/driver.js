@@ -72,7 +72,7 @@ class ThermostatDriver extends Homey.Driver {
           const zones = data.gateways[0].temperatureControlSystems[0].zones;
           zones.forEach((device) => {
             const foundDevice = {
-              name: device.name + ' - Test',
+              name: device.name,
               data: {
                 id: device.zoneId,
                 location: locationId

@@ -1,9 +1,9 @@
 {
     "id": "nl.dumans.evohome",
     "name": {
-        "en": "Honeywell Evohome - TEST"
+        "en": "Honeywell Evohome"
     },
-    "version": "2.1.7",
+    "version": "2.2.0",
     "compatibility": ">=1.5.0",
     "sdk": 2,
     "description" : {
@@ -16,9 +16,12 @@
     },
     "contributing": {
         "donate": {
-            "paypal": {}
+          "paypal": {
+            "username": "ralfvd"
+        }
         }
     },
+    "homeyCommunityTopicId": 6887,
     "images": {
       "large": "./assets/images/large.png",
       "small": "./assets/images/small.png"
